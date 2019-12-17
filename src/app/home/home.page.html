@@ -1,0 +1,66 @@
+<ion-content>
+    <div class="Centrer">
+
+        <div class="logo">
+
+            <!--<ion-icon color="light" name="contact"></ion-icon> -->
+            <ion-img src="assets/icon/logohome.png"></ion-img>
+
+        </div>
+
+
+        <ion-item class="ion-no-padding"  >
+
+            <ion-label color="light">
+                <ion-icon name="mail" item-start></ion-icon>
+                
+            </ion-label>
+            <ion-input  color="light" type="email" placeholder="example@domain.com"></ion-input>
+
+        </ion-item>
+        <ion-item class="ion-no-padding">
+
+            <ion-label color="light">
+                <ion-icon name="lock" item-start></ion-icon>
+                
+            </ion-label>
+            <ion-input color="light" type="password" placeholder="******"></ion-input>
+
+        </ion-item>
+
+        <ion-item lines="none">
+
+            <ion-button color="light" fill="clear" slot="end" (click)="forgotPass()">forgot password ?</ion-button>
+        </ion-item>
+
+
+        <ion-button icon-left size="medium" (click)="Home()" color="light" shape="round" fill="outline" expand="full">
+            <ion-icon name="log-in"></ion-icon>
+            Sign in
+        </ion-button>
+        <br /><br />
+
+        <ion-button shape="round" expand="block" >Sign up</ion-button>
+
+        <ion-item lines="none">
+            <ion-label class="ion-text-center" color="light">Or connect with </ion-label>
+        </ion-item>
+    </div>
+
+    <div class="GoogleFacebookcallign">
+
+        <ion-button shape="around" color="facebook">
+
+            <ion-icon slot="start" name="logo-facebook"></ion-icon>
+            Facebook
+
+        </ion-button>
+
+        <ion-button color="google" shape="around">
+
+            <ion-icon name="logo-google"></ion-icon>
+            Google
+
+        </ion-button>
+    </div>
+</ion-content>

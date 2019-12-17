@@ -1,0 +1,85 @@
+ion-content {
+    --background: url('/assets/images/register.jpg') 100% 100%;
+}
+
+ion-item {
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 30px;
+    -moz-box-shadow: 2px 2px 3px #666;
+    -webkit-box-shadow: 2px 2px 3px #666;
+    box-shadow: 2px 2px 3px #666;
+    font-size: 20px;
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+    --ion-background-color: transparent !important;
+    margin-bottom: 20px;
+}
+ion-item:focus {
+    border-color: #339933;
+}
+
+ion-input {
+    text-align: center;
+}
+
+.Centrer {
+    padding: 5%;
+}
+
+
+.logo {
+    height: 80px;
+    position: relative;
+}
+
+
+.title {
+    font-size: 2em;
+    position: absolute;
+    font-family: 'Times New Roman', Times, serif;
+    color: #d3d9e3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.manager {
+    color: #15cd72;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+.developper {
+    color: #f2785f;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+.client {
+    color: #5199e4;
+    font-weight: bold;
+    text-align: center;
+    display:block;
+}
+ion-col {
+    margin-left: 20px;
+}
+
+.soustitle {
+    color: #727ea7;
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 30%;
+    margin-bottom:5%;
+}
+
+ion-button {
+    margin-top: 40px;
+
+}
+
+ion-grid{
+    margin-bottom:20px;
+}

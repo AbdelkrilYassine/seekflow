@@ -1,0 +1,45 @@
+ion-content {
+    /* --ion-background-color: linear-gradient( #FF5F6D, #FFC371 );*/
+    --background: url('/assets/images/home.jpg') 100% 100%;
+    /*--ion-background-color: linear-gradient( #00adb5, #393e46 );*/
+    --background-repeat: no-repeat;
+    --background-size: cover;
+    --text-align: center;
+}
+
+ion-item {
+    --ion-background-color: transparent !important;
+    --ion-border-color: #3f434d;
+}
+
+.Centrer{
+    padding: 5%;
+}
+
+.GoogleFacebookcallign{
+    display: flex;
+    justify-content:  space-around;
+}
+
+.logo {
+    height: 250px;
+    width: 151px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.logo ion-icon {
+    font-size: 9em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+ion-input {
+    text-align: center;
+}
+
+
