@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,RouterEvent, Routes, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -11,6 +12,11 @@ export class MenuPage implements OnInit {
         title: 'Main',
         url: '/menu/main',
         icon: 'home'
+    },
+    {
+           title: 'Notfication',
+            url: '/menu/notfication',
+            icon: 'home'
     },
     {
         title: 'Projets',
@@ -51,9 +57,15 @@ export class MenuPage implements OnInit {
 
     ];
 
-  
+    selectedPath = '';
 
-    constructor() {
+    constructor(private router: Router) {
+        this.router.events.subscribe((event: RouterEvent) => {
+
+            if (event && event.url) {
+                this.selectedPath = event.url;
+            }
+        })
 
  
     }

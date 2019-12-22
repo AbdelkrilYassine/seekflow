@@ -7,10 +7,15 @@ const routes: Routes = [
   { path: 'splashscreen', loadChildren: './splashscreen/splashscreen.module#SplashscreenPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
-  { path: '', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
   { path: 'detailstab', loadChildren: './pages/detailstab/detailstab.module#DetailstabPageModule' },
   { path: 'dashboardchef', loadChildren: './dashboardchef/dashboardchef.module#DashboardchefPageModule' },
   { path: 'detailsprojet', loadChildren: './detailsprojet/detailsprojet.module#DetailsprojetPageModule' },
+  { path: 'notfication', loadChildren: './pages/notfication/notfication.module#NotficationPageModule' },
+  { path: 'welcome', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
+  { path: 'user-list', loadChildren: './pages/user-list/user-list.module#UserListPageModule' },
+  { path: 'user', loadChildren: './pages/user-details/user-details.module#UserDetailsPageModule' },
+  { path: 'user/:id', loadChildren: './pages/user-details/user-details.module#UserDetailsPageModule' }
+
 
 ];
 

@@ -24,7 +24,7 @@
 
                 </ion-item>
 
-
+            <!-- 
             <div *ngFor="let p of pages">
                 <ion-menu-toggle *ngIf="p.url">
                     <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
@@ -49,6 +49,20 @@
                 </ion-list>
 
             </div>
+            -->
+            <ion-list>
+
+                <ion-menu-toggle *ngFor="let p of pages" auto-hide="false">
+                    <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
+                        <ion-label>
+                            {{p.title}}
+                        </ion-label>
+
+                    </ion-item>
+
+                </ion-menu-toggle>
+            </ion-list>
+
         </ion-content>
     </ion-menu>
 <ion-router-outlet id="content" main></ion-router-outlet>

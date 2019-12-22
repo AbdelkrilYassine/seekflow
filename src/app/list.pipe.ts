@@ -5,13 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ListPipe implements PipeTransform {
 
-    transform(value: string, etat: string): string {
-        if (etat.toLowerCase() == 'done') {
-            return "GG" + value;
-        }
-        else {
-            return "Bad" + value;
-        }
-
-  }
+    transform(value: string, args: any[]): string  {
+        if (value === null) return 'Not assigned';
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    }
   }

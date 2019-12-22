@@ -1,11 +1,54 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>tab1</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="secondary">
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col class="ion-no-padding" col-6>
+                    <ion-segment [(ngModel)]="joined" (ionChange)="switchView($event)" color="light">
+                        <ion-segment-button [value]="focus">
+                            <ion-menu-button color="primary"></ion-menu-button>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus">
+                            <ion-icon name="notifications" color="primary"></ion-icon>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus">
+                            <ion-icon name="chatboxes" color="primary"></ion-icon>
+                        </ion-segment-button>
+                    </ion-segment>
+
+                </ion-col>
+
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-button (click)="openDetailstabInTab()">Open details with tab bar</ion-button>
-    <ion-button routerLink="/detailstab">Open details without tab bar</ion-button>
+    <ion-content>
+        <ion-searchbar (ionChange)="getItems( $event )" color="light" debounce="500" showCancelButton="focus" placeholder="Search projects by name" animated></ion-searchbar>
+        <ion-virtual-scroll [items]="projects" approxItemHeight="70px" [headerFn]="myHeaderFn">
 
-</ion-content>
+
+            <ion-item-divider *virtualHeader="let header" color="secondary">
+                <ion-label>
+                    {{ header }}
+                </ion-label>
+            </ion-item-divider>
+
+
+
+            <ion-item *virtualItem="let p " (click)="selectItem(p)">
+
+                <ion-avatar slot="start">
+
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ayhpppm8X5IRg5T8eSggMCb7ZTeTnx5-R8CZ7x2gzq5QpJhm7g&s">
+                </ion-avatar>
+                <ion-label>
+                    <h2 class="ion-text-capitalize">{{p.nom}}</h2>
+                    <p>{{p.client}}</p>
+                    <p>{{p.date}}</p>
+                    <p>{{p.etat}}</p>
+                </ion-label>
+            </ion-item>
+        </ion-virtual-scroll>
+
+    </ion-content>

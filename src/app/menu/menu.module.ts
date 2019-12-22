@@ -8,22 +8,24 @@ import { IonicModule } from '@ionic/angular';
 import { MenuPage } from './menu.page';
 
 const routes: Routes = [
-    {
-        path: '',
-        redirectTo: '/menu/main',
-        pathMatch: 'full'
-    },
+
   {
-    path: '',
+    path: 'menu',
     component: MenuPage,
     children: [
         
         { path: 'main', loadChildren: '../main/main.module#MainPageModule' },
         { path: 'ionic', loadChildren: '../ionic/ionic.module#IonicPageModule' },
         { path: 'flutter', loadChildren: '../flutter/flutter.module#FlutterPageModule' },
+        { path: 'notfication', loadChildren: '../pages/notfication/notfication.module#NotficationPageModule' },
     ]
 
-  }
+    },
+        {
+        path: '',
+        redirectTo: 'menu/main',
+        pathMatch: 'full'
+    },
 ];
 
 @NgModule({

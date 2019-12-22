@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, AlertController, LoadingController } from '@ionic/angular';
-
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,11 @@ import { ToastController, AlertController, LoadingController } from '@ionic/angu
 })
 export class HomePage {
 
+    email: string = "";
+    password: string = "";
     constructor(private router: Router,
         public toastCtrl: ToastController,
-        public alertCtrl: AlertController, public loadingCtrl: LoadingController
+        public alertCtrl: AlertController, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth
         ) {}
        
 
@@ -65,5 +68,20 @@ export class HomePage {
         });
 
         await alert.present();
+    }
+
+
+    async login() {
+        const { email, password } = this
+        try {
+
+            const res = await this.afAuth.auth.signInWithEmailAndPassword(email,password);
+        } catch (err) {
+            console.dir(err);
+            if (err.code = "auth/user-not-found") {
+                console.log("user not found");
+            }
+
+        }
     }
 }
