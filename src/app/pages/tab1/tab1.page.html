@@ -7,7 +7,7 @@
                         <ion-segment-button [value]="focus">
                             <ion-menu-button color="primary"></ion-menu-button>
                         </ion-segment-button>
-                        <ion-segment-button [value]="focus">
+                        <ion-segment-button [value]="focus" (click)="pagenotif()">
                             <ion-icon name="notifications" color="primary"></ion-icon>
                         </ion-segment-button>
                         <ion-segment-button [value]="focus">
@@ -43,9 +43,9 @@
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ayhpppm8X5IRg5T8eSggMCb7ZTeTnx5-R8CZ7x2gzq5QpJhm7g&s">
                 </ion-avatar>
                 <ion-label>
-                    <h2 class="ion-text-capitalize">{{p.nom}}</h2>
+                    <h2 class="ion-text-capitalize">{{p.name}}</h2>
                     <p>{{p.client}}</p>
-                    <p>{{p.date}}</p>
+                    <p>{{p.deadline}}</p>
                     <p>{{p.etat}}</p>
                 </ion-label>
             </ion-item>

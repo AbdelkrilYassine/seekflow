@@ -1,16 +1,19 @@
 <ion-header>
-  <ion-toolbar color="secondary">
+    <ion-toolbar color="secondary">
 
 
-          <ion-menu-button slot="start"></ion-menu-button>
 
-    <ion-title>Notfication</ion-title>
+        <ion-title>Notfication</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref=""></ion-back-button>
+        </ion-buttons>
 
-  </ion-toolbar>
+
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list>
+    <ion-list *ngIf="boite?.length > 0;else noNotfications">
 
         <ion-item-sliding *ngFor="let b of boite; let i = index">
             <ion-item >
@@ -18,19 +21,19 @@
                     <img class="circle-pic" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
                 </ion-thumbnail>
                 <ion-label>
-                    <p class="ion-text-capitalize">{{ b.name }} <img class="point" src="assets/icon/point.png" /> {{b.datetime}}</p>
+                    <p class="ion-text-capitalize">{{ b.src }} <img class="point" src="assets/icon/point.png" /> {{b.date}}</p>
 
                     <div class="divt">
-                        <h2>{{b.body}}</h2>
+                        <h2>{{b.id}}</h2>
                     </div>
                 </ion-label>
                 <ion-note slot="end" ><img src="assets/icon/swipe.png" /></ion-note>
 
-                <ion-item-options slide="end" (ionSwipe)="DeleteNotif(i)">
+                <ion-item-options slide="end" (ionSwipe)="DeleteNotif($event,b)">
 
                     <ion-item-option color="danger" expandable >
 
-                        <ion-button  color="danger" (click)="DeleteNotif(i)">
+                        <ion-button  color="danger" (click)="DeleteNotif($event,b)">
 
                             <ion-icon name="trash"></ion-icon>
 
@@ -42,4 +45,9 @@
             </ion-item>
         </ion-item-sliding>
     </ion-list>
+
+    <ng-template #noNotfications>
+        <hr />
+        <h5>There is no notfications</h5>
+    </ng-template>
 </ion-content>

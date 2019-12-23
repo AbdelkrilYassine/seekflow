@@ -8,7 +8,8 @@ export interface Utilisateur {
     type: number,
     name: string,
     email: string,
-    password: string
+    password: string,
+    notfication:boolean
 }
 
 @Injectable({
@@ -51,7 +52,7 @@ export class RegisterService {
     }
 
     updateUser(user: Utilisateur): Promise<void> {
-        return this.userCollection.doc(user.id).update({ name: user.name, email: user.email,password:user.password,type:user.type});
+        return this.userCollection.doc(user.id).update({ name: user.name, email: user.email, password: user.password, type: user.type, notfication: user.notfication });
     }
 
     deleteUser(id: string): Promise<void> {

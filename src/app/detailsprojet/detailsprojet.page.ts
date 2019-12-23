@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { Chart } from "chart.js";
+import { Router } from '@angular/router';
+import { ProjetService, Project, Task } from 'src/app/services/projet.service';
+import { Observable } from 'rxjs'
+import { ToastController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-detailsprojet',
   templateUrl: './detailsprojet.page.html',
@@ -13,12 +19,17 @@ export class DetailsprojetPage implements OnInit {
      barChart: Chart;
      doughnutChart: Chart;
      lineChart: Chart;
+     projet: Project;
 
-    constructor() {
+    constructor(private route: ActivatedRoute, private router: Router) {
+        let recvData = this.route.snapshot.paramMap.get('obj');
+        this.projet = JSON.parse(recvData)
+        console.log(this.projet);
     }
+    
 
     ngOnInit() {
-
+  
     }
 
     ngAfterViewInit() {

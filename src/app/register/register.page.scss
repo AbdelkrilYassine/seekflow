@@ -83,3 +83,45 @@ ion-button {
 ion-grid{
     margin-bottom:20px;
 }
+/* 
+ion-radio {
+    background: #252b3b;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-radius: 1px;
+    border-color: grey !important;
+    --height: 1px;
+    --width: 1px;
+    --checkmark-color: #FFFFFF;
+    --background-checked: #FFFFFF;
+    --border-color: #666;
+    --border-color-checked: #666;
+    margin-left:20px;
+}
+
+.dev-check {
+    --background-checked: #f2785f;
+}
+.manager-check {
+    --background-checked: #15cd72;
+}
+.client-check {
+    --background-checked: #5199e4;
+}
+*/
+
+ion-radio{
+    margin-left:25px;
+    margin-top:5px;
+}
+.dev-check {
+    --color-checked: #f2785f;
+}
+
+.manager-check {
+    --color-checked: #15cd72;
+}
+
+.client-check {
+    --color-checked: #5199e4;
+}

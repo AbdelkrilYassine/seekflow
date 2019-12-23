@@ -13,7 +13,8 @@ export class UserDetailsPage implements OnInit {
         name: '',
         type: null,
         email: '',
-        password: ''
+        password: '',
+        notfication: true
     };
 
     constructor(private activatedRoute: ActivatedRoute, private userService: RegisterService,

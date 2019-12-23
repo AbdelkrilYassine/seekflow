@@ -14,12 +14,14 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
 @NgModule({
   declarations: [AppComponent, ListPipe],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAuthModule, AngularFirestoreModule
+        AngularFireAuthModule, AngularFirestoreModule, AngularFireDatabaseModule
 
     ],
   providers: [

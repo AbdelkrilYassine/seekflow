@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { ProjetService, Project, Task } from 'src/app/services/projet.service';
+import { Observable } from 'rxjs'
+import { ToastController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -8,119 +11,120 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page implements OnInit {
 
+    proj: Project = {
+        name: '',
+        chef: '',
+        client: '',
+        dev_team: [],
+        deadline: '',
+        description: '',
+        budget: 0,
+        Tasks: [],
+        feedback: '',
+        ROI: 0,
+        TasksFollow: 0,
+        ProjectFollow: 0,
+        CreatedByApp: true,
+        etat: '',
+    };
 
-    projects: any[];
+    task: Task = {
+        name: '',
+        difficulty: '',
+        progress: '',
+        employee: []
+    };
+    projects: Project[] = [];
 
 
 
-    constructor() {
+    constructor(private router: Router, private projetService: ProjetService, private toastCtrl: ToastController, private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.loadproject()
-    }
 
+
+        this.loadproject();
+    }
+    pagenotif() {
+        this.router.navigateByUrl('/notfication');
+
+    }
 
     loadproject() {
-        this.projects = [
-            {
-                'nom': 'ionic',
-                'client': 'yassine abdelkrim',
-                'date': '12/02/2019',
-                'etat': 'Doing'
-            },
-            {
-                'nom': 'flutter',
-                'client': 'yassine abdelkrim',
-                'date': '01/07/2019',
-                'etat': 'Doing'
-            },
-            {
-                'nom': 'spring boot',
-                'client': 'yassine abdelkrim',
-                'date': '10/01/2019',
-                'etat': 'Finished'
-            },
-            {
-                'nom': 'dotnet core',
-                'client': 'yassine abdelkrim',
-                'date': '11/10/2019',
-                'etat': 'Doing'
-            },
-            {
-                'nom': 'laravel',
-                'client': 'yassine abdelkrim',
-                'date': '01/05/2019',
-                'etat': 'Doing'
-            },
-            {
-                'nom': 'angular',
-                'client': 'ahmed',
-                'date': '08/02/2019',
-                'etat': 'Finished'
-            },
-            {
-                'nom': 'Firebase',
-                'client': 'ahmed',
-                'date': '05/03/2019',
-                'etat': 'Finished'
-            }
-        ];
-        this.projects.sort(function compare(a, b) {
 
-            const nomA = a.nom.toUpperCase();
-            const nomB = b.nom.toUpperCase();
+        this.proj = {
+            name: 'Firebase',
+            chef: 'F6Js4HwdwZpuRna3HNxy',
+            client: 'F6Js4HwdwZpuRna3HNxy',
+            dev_team: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
+            deadline: '10/10/10',
+            description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            budget: 666,
+            Tasks: [
+                {
+                    name: 'API REST',
+                    difficulty: 'un peu',
+                    progress: '666',
+                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy']
 
-            let comparison = 0;
-            if (nomA > nomB) {
-                comparison = 1;
-            } else if (nomA < nomB) {
-                comparison = -1;
-            }
-            return comparison;
-        });
-    }
+                },
+                {
+                    name: 'API Spring',
+                    difficulty: 'moyenne',
+                    progress: '777',
+                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy']
 
-    separateletter(record, recordIndex, records) {
-        if (recordIndex == 0) {
-            return record.nom[0].toUpperCase();
-        }
+                },
 
-        let first_prev = records[recordIndex - 1].nom[0];
-        let first_current = record.nom[0];
+            ],
+            feedback: '50%',
+            ROI: 666,
+            TasksFollow: 66,
+            ProjectFollow: 66,
+            CreatedByApp: true,
+            etat: 'en cours'
 
-        if (first_prev != first_current) {
-            return first_current.toUpperCase();
-        }
-        return null;
+        };
+       // this.projetService.addProjet(this.proj);
+        this.projetService.getmyProjects('chef', 'F6Js4HwdwZpuRna3HNxy').subscribe(p => {
+            this.projects = p;
+
+        })
+
+
     }
 
     getItems(ev: any) {
-        this.loadproject();
         const val = ev.target.value;
         if (val && val.trim() !== '') {
             this.projects = this.projects.filter((item) => {
-
-                return (item.nom.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.client.toLowerCase().indexOf(val.toLowerCase()) > -1);
+                return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.client.toLowerCase().indexOf(val.toLowerCase()) > -1);
             });
+        } else {
+            this.loadproject();
         }
 
 
     }
 
     selectItem(val) {
-        alert("You have selected = " + val.nom);
+        // this.router.navigate(['/detailsprojet', val]);
+        let data = JSON.stringify(val);
+        this.router.navigate(['/detailsprojet', data]);
     }
+
+    
 
     myHeaderFn(record, recordIndex, records) {
 
 
         if (recordIndex == 0) {
-            return record.nom.toUpperCase();
+            return record.name[0].toUpperCase();
         }
 
-        let first_prev = records[recordIndex - 1].nom[0].toUpperCase();
-        let first_current = record.nom[0].toUpperCase();
+        let first_prev = records[recordIndex - 1].name[0].toUpperCase();
+        let first_current = record.name[0].toUpperCase();
 
         if (first_prev != first_current) {
             return first_current;
