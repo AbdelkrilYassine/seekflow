@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
   { path: 'detailstab', loadChildren: './pages/detailstab/detailstab.module#DetailstabPageModule' },
   { path: 'dashboardchef', loadChildren: './dashboardchef/dashboardchef.module#DashboardchefPageModule' },
-  { path: 'detailsprojet/:obj', loadChildren: './detailsprojet/detailsprojet.module#DetailsprojetPageModule' },
+  { path: 'detailsprojet/:id', loadChildren: './detailsprojet/detailsprojet.module#DetailsprojetPageModule' },
   { path: 'notfication', loadChildren: './pages/notfication/notfication.module#NotficationPageModule' },
   { path: 'welcome', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
   { path: 'user-list', loadChildren: './pages/user-list/user-list.module#UserListPageModule' },

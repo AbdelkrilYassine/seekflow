@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProjetService, Project, Task } from 'src/app/services/projet.service';
+import { ProjetService, Project, Task, STATUS, DIFFICULTY } from 'src/app/services/projet.service';
 import { Observable } from 'rxjs'
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -20,19 +20,20 @@ export class Tab1Page implements OnInit {
         description: '',
         budget: 0,
         Tasks: [],
-        feedback: '',
+        feedback: 0,
         ROI: 0,
         TasksFollow: 0,
         ProjectFollow: 0,
         CreatedByApp: true,
-        etat: '',
+        etat: STATUS.Pending,
     };
 
     task: Task = {
         name: '',
-        difficulty: '',
-        progress: '',
-        employee: []
+        difficulty: DIFFICULTY.VERY_EASY,
+        progress: 0,
+        employee: [],
+        status: STATUS.Pending
     };
     projects: Project[] = [];
 
@@ -64,26 +65,28 @@ export class Tab1Page implements OnInit {
             Tasks: [
                 {
                     name: 'API REST',
-                    difficulty: 'un peu',
-                    progress: '666',
-                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy']
+                    difficulty: DIFFICULTY.EXTREMELY_DIFFICULT,
+                    progress: 2,
+                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
+                    status: STATUS.Pending
 
                 },
                 {
                     name: 'API Spring',
-                    difficulty: 'moyenne',
-                    progress: '777',
-                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy']
+                    difficulty: DIFFICULTY.DIFFICULT,
+                    progress: 4,
+                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
+                    status: STATUS.Pending
 
                 },
 
             ],
-            feedback: '50%',
-            ROI: 666,
-            TasksFollow: 66,
-            ProjectFollow: 66,
+            feedback: 50,
+            ROI: 0,
+            TasksFollow: 0,
+            ProjectFollow: 0,
             CreatedByApp: true,
-            etat: 'en cours'
+            etat: STATUS.In_Progress
 
         };
        // this.projetService.addProjet(this.proj);
@@ -110,7 +113,7 @@ export class Tab1Page implements OnInit {
 
     selectItem(val) {
         // this.router.navigate(['/detailsprojet', val]);
-        let data = JSON.stringify(val);
+        let data = JSON.stringify(val.id);
         this.router.navigate(['/detailsprojet', data]);
     }
 

@@ -5,7 +5,6 @@ import { ProjetService, Project, Task } from 'src/app/services/projet.service';
 import { Observable } from 'rxjs'
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-
 @Component({
   selector: 'app-detailsprojet',
   templateUrl: './detailsprojet.page.html',
@@ -19,17 +18,20 @@ export class DetailsprojetPage implements OnInit {
      barChart: Chart;
      doughnutChart: Chart;
      lineChart: Chart;
-     projet: Project;
+    projetID: string;
+    projet: Project;
+    private taskslist;
+    tableStyle = 'dark';
 
-    constructor(private route: ActivatedRoute, private router: Router) {
-        let recvData = this.route.snapshot.paramMap.get('obj');
-        this.projet = JSON.parse(recvData)
-        console.log(this.projet);
+    constructor(private route: ActivatedRoute, private router: Router, private projetService: ProjetService, private toastCtrl: ToastController) {
+        let recvData = this.route.snapshot.paramMap.get('id');
+        this.projetID = JSON.parse(recvData)
+        
     }
     
 
     ngOnInit() {
-  
+        this.loadProjet();
     }
 
     ngAfterViewInit() {
@@ -37,6 +39,24 @@ export class DetailsprojetPage implements OnInit {
         this.doughnutChartMethod();
         this.lineChartMethod();
     }
+
+    loadProjet() {
+        this.projetService.getProjetById(this.projetID).subscribe(p => {
+            this.projet = p;
+            this.taskslist = p.Tasks;
+        })
+
+    }
+    async open(row) {
+        console.log(row);
+
+    }
+
+    getCellClass(cell) {
+        console.log(cell);
+        return cell.status == 'Pending' ? 'pending_cell' : 'finished_cell';
+    }
+
 
     barChartMethod() {
         this.barChart = new Chart(this.barCanvas.nativeElement, {

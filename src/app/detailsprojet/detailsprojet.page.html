@@ -8,12 +8,11 @@
 </ion-header>
 
 <ion-content>
-
-    <ion-grid>
+    <ion-grid *ngIf="projet;else noProjet">
         <ion-row>
             <ion-col>
                 <ion-card class="card">
-                    <div class="card-title">OK </div>
+                    <div class="card-title">{{projet.name}} </div>
                     <div class="card-subtitle"><ion-img src="assets/icon/analyse.png"></ion-img></div>
                 </ion-card>
             </ion-col>
@@ -27,14 +26,14 @@
         <ion-row>
             <ion-col>
                 <ion-card class="card">
-                    <div class="card-title">10/11/2020 </div>
+                    <div class="card-title">{{projet.deadline}} </div>
                     <div class="card-subtitle"><ion-img src="assets/icon/date.png"></ion-img></div>
                 </ion-card>
             </ion-col>
 
             <ion-col>
                 <ion-card class="card">
-                    <div class="card-title">6 persons </div>
+                    <div class="card-title">{{projet.dev_team.length}} persons </div>
                     <div class="card-subtitle"><ion-img src="assets/icon/effective.png"></ion-img></div>
                 </ion-card>
             </ion-col>
@@ -43,7 +42,7 @@
         <ion-row>
             <ion-col>
                 <ion-card class="card">
-                    <div class="card-title">300$ </div>
+                    <div class="card-title">{{projet.budget}} </div>
                     <div class="card-subtitle"><ion-img src="assets/icon/budget.png"></ion-img></div>
 
                 </ion-card>
@@ -73,7 +72,90 @@
 
     </ion-grid>
 
+    <ngx-datatable
+        [rows]="taskslist"
+        [rowHeight]="'auto'"
+        [columnMode]="'force'"
+        [ngClass]="tableStyle"
+        [headerHeight]="50"
+        [footerHeight]="25"
+        [sortType]="'multi'"
+                                 
+        >
+                   
+               
+        <ngx-datatable-column name="Status"[cellClass]="getCellClass" ></ngx-datatable-column>
+        <ngx-datatable-column name="Name" ></ngx-datatable-column>
+        <ngx-datatable-column name="Difficulty"></ngx-datatable-column>
+        <ngx-datatable-column name="Progress"> </ngx-datatable-column>
+        <!-- [canAutoResize]="false"-->
+        <ngx-datatable-column name="Actions"   [resizeable]="false"[sortable]="false">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <ion-button size="small" fill="outline" (click)="open(row)">Details</ion-button>
+            </ng-template>
 
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+
+    <!--
+        <ion-card class="ion-no-padding" *ngIf="projet;else noProjet">
+            <ion-card-header>
+                <p style="margin-left:-9px;"> Manage Tasks  </p>
+            </ion-card-header>
+
+            <ion-card-content class="ion-no-padding">
+                <ion-grid fixed class="ion-text-center">
+                    <ion-row>
+                        <ion-col  style="font-size: 10px">
+                            STATUS
+                        </ion-col>
+                        <ion-col  style="font-size: 10px">
+                            TASK
+                        </ion-col>
+                        <ion-col style="font-size: 10px;">
+                            Employee
+                        </ion-col>
+                        <ion-col  style="font-size: 10px ">
+                            DIFFICULTY
+                        </ion-col>
+                        <ion-col  style="font-size: 10px">
+                            PROGRESS
+                        </ion-col>
+                        <ion-col  style="font-size: 10px">
+                            ACTION
+                        </ion-col>
+
+                    </ion-row>
+                    <ion-row *ngFor="let task of projet.Tasks">
+
+                        <ion-col size="2" style="font-size:10px;">
+                            {{task.status}}
+                        </ion-col>
+                        <ion-col size="2" style="font-size:10px">
+                            {{task.name}}
+                        </ion-col>
+                        <ion-col size="2" style="font-size:10px">
+                            a
+                        </ion-col>
+                        <ion-col size="2" style="font-size:10px">
+                            {{task.difficulty}}
+                        </ion-col>
+                        <ion-col size="2" style="font-size:10px">
+                            {{task.progress}}
+                        </ion-col>
+                        <ion-col size="2" style="font-size:10px">
+                            Action
+                        </ion-col>
+                    </ion-row>
+
+                </ion-grid>
+
+
+            </ion-card-content>
+
+        </ion-card>
+        -->
 
     <div class="ion-padding">
         <ion-card>
@@ -107,79 +189,16 @@
 
 
 
-    <ion-card>
-        <ion-card-header>
-            Manage Tasks
-        </ion-card-header>
-        <ion-card-content>
 
-            <ion-grid>
-                <ion-row style="border-bottom: groove;">
-                    <ion-col col-4>
-                        <ion-label>State</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Task</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Deadline</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Employee </ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-row style="border-bottom: groove;">
-                    <ion-col col-4>
-                        <ion-label>Doing</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Api rest</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>02/02/2018</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Yassine</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-row style="border-bottom: groove;">
-                    <ion-col col-4>
-                        <ion-label>Done</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Api rest</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>02/02/2018</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Ahmed</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col col-4>
-                        <ion-label>To do</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>Api rest</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>02/02/2018</ion-label>
-                    </ion-col>
-                    <ion-col col-4>
-                        <ion-label>mourad</ion-label>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-card-content>
-    </ion-card>
 
-    <form>
+
+
+    <form *ngIf="projet;else noProjet">
         <ion-grid>
             <ion-row>
                 <ion-col class='my-thin-col'>
                     <ion-item>
-                        <ion-label>Name</ion-label><ion-label>Ionic spring</ion-label>
+                        <ion-label>Name</ion-label><ion-label>{{projet.name}}</ion-label>
                     </ion-item>
 
                 </ion-col>
@@ -192,41 +211,24 @@
                 </ion-col>
                 <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
                     <ion-item>
-                        <ion-label>Ionic spring</ion-label>
+                        <ion-label>{{projet.description}}</ion-label>
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
-                    <ion-item>
-                        <ion-label>Date</ion-label><ion-label>10/12/2020</ion-label>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
-                    <ion-item>
-                        <ion-label>Budget</ion-label><ion-label>30 $</ion-label>
-                    </ion-item>
-                </ion-col>
 
-            </ion-row>
-            <ion-row>
-                <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
-                    <ion-item>
-                        <ion-label>Effective</ion-label><ion-label>6 persons</ion-label>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
         </ion-grid>
     </form>
 
 
 
 
+    <ng-template #noProjet>
 
+        <hr />
+        <h5>This project is not available</h5>
 
-
+    </ng-template>
 
 
 </ion-content>
+

@@ -12,12 +12,12 @@ export interface Project {
     description: string,
     budget: number,
     Tasks: Task[],
-    feedback: string,
+    feedback: number,
     ROI: number,
     TasksFollow: number,
     ProjectFollow: number,
     CreatedByApp: boolean,
-    etat: string,
+    etat: STATUS,
 
 
 }
@@ -25,11 +25,29 @@ export interface Project {
 export interface Task {
     id?: string,
     name: string,
-    difficulty: string,
-    progress: string,
-    employee: string[]
+    difficulty: DIFFICULTY,
+    progress: number,
+    employee: string[],
+    status: STATUS
 
 }
+export enum STATUS {
+    Pending="Pending",
+    Completed="Completed",
+    In_Progress="In Progress",
+    On_Hold="On Hold",
+}
+
+export enum DIFFICULTY {
+    EXTREMELY_EASY = "Extremely Easy",
+    VERY_EASY = "Very Easy",
+    A_BIT_DIFFICULT = "A Bit Difficult",
+    DIFFICULT = "Difficult",
+    VERY_DIFFICULT = "Very Difficult",
+    EXTREMELY_DIFFICULT ="Extremely Difficult",
+
+}
+
 
 @Injectable({
   providedIn: 'root'
