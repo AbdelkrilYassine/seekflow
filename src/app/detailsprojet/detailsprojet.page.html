@@ -72,90 +72,103 @@
 
     </ion-grid>
 
-    <ngx-datatable
-        [rows]="taskslist"
-        [rowHeight]="'auto'"
-        [columnMode]="'force'"
-        [ngClass]="tableStyle"
-        [headerHeight]="50"
-        [footerHeight]="25"
-        [sortType]="'multi'"
-                                 
-        >
-                   
-               
-        <ngx-datatable-column name="Status"[cellClass]="getCellClass" ></ngx-datatable-column>
-        <ngx-datatable-column name="Name" ></ngx-datatable-column>
+    <ngx-datatable [rows]="taskslist" 
+                   [rowHeight]="'auto'"
+                   [columnMode]="'force'"
+                   [ngClass]="tableStyle"
+                   [headerHeight]="50"
+                   [footerHeight]="30"
+                   [sortType]="'multi'">
+
+
+        <ngx-datatable-column name="Status" [cellClass]="getCellClass"></ngx-datatable-column>
+        <ngx-datatable-column name="Name"></ngx-datatable-column>
         <ngx-datatable-column name="Difficulty"></ngx-datatable-column>
         <ngx-datatable-column name="Progress"> </ngx-datatable-column>
         <!-- [canAutoResize]="false"-->
-        <ngx-datatable-column name="Actions"   [resizeable]="false"[sortable]="false">
+        <ngx-datatable-column name="Actions" [resizeable]="false" [sortable]="false">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <ion-button size="small" fill="outline" (click)="open(row)">Details</ion-button>
-            </ng-template>
+                <span>
+                    <ion-button size="small" fill="outline" (click)="openSelect(row)">Assign</ion-button>
+                    <ion-button size="small" fill="fill" (click)="DeleteTask(row)">Delete</ion-button>
+                    <ion-button size="small" fill="outline" (click)="openSelectStatus(row)">Status</ion-button>
+                    <ion-button size="small" fill="outline" (click)="openSelectDifficulty(row)">Difficulty</ion-button>
+                    <ion-button size="small" fill="outline" (click)="openSelectProgress(row)">Progress</ion-button>
 
+                </span>
+            </ng-template>
         </ngx-datatable-column>
 
     </ngx-datatable>
 
-    <!--
-        <ion-card class="ion-no-padding" *ngIf="projet;else noProjet">
-            <ion-card-header>
-                <p style="margin-left:-9px;"> Manage Tasks  </p>
-            </ion-card-header>
+    <ion-list>
+        <ion-list-header>
+            <ion-label color="primary">Add new Task </ion-label>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Name Task :</ion-label>
+            <ion-input color="black" type="text" [(ngModel)]="NameTask" maxlength="15" required="true" clearInput=true></ion-input>
+        </ion-item>
 
-            <ion-card-content class="ion-no-padding">
-                <ion-grid fixed class="ion-text-center">
-                    <ion-row>
-                        <ion-col  style="font-size: 10px">
-                            STATUS
-                        </ion-col>
-                        <ion-col  style="font-size: 10px">
-                            TASK
-                        </ion-col>
-                        <ion-col style="font-size: 10px;">
-                            Employee
-                        </ion-col>
-                        <ion-col  style="font-size: 10px ">
-                            DIFFICULTY
-                        </ion-col>
-                        <ion-col  style="font-size: 10px">
-                            PROGRESS
-                        </ion-col>
-                        <ion-col  style="font-size: 10px">
-                            ACTION
-                        </ion-col>
+        <ion-item [hidden]="true">
+            <ion-label>Assign Employee</ion-label>
+            <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                        multiple="true" placeholder="Tap to select.."
+                        (ionChange)="onChange($event)" required #mySelect>
+                <ion-select-option *ngFor="let emp of Emp" value="{{emp.id}}">
+                    {{emp.name}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
 
-                    </ion-row>
-                    <ion-row *ngFor="let task of projet.Tasks">
+        <ion-item [hidden]="true">
+            <ion-item>
+                <ion-label>Choose task Status</ion-label>
+                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                            placeholder="Tap to select.."
+                            (ionChange)="onChangeStatus($event)" required #SelectStatus>
+                    <ion-select-option value="Pending">Pending</ion-select-option>
+                    <ion-select-option value="Completed">Completed</ion-select-option>
+                    <ion-select-option value="In_Progress">In Progress</ion-select-option>
+                    <ion-select-option value="On_Hold">On Hold</ion-select-option>
+                </ion-select>
+            </ion-item>
 
-                        <ion-col size="2" style="font-size:10px;">
-                            {{task.status}}
-                        </ion-col>
-                        <ion-col size="2" style="font-size:10px">
-                            {{task.name}}
-                        </ion-col>
-                        <ion-col size="2" style="font-size:10px">
-                            a
-                        </ion-col>
-                        <ion-col size="2" style="font-size:10px">
-                            {{task.difficulty}}
-                        </ion-col>
-                        <ion-col size="2" style="font-size:10px">
-                            {{task.progress}}
-                        </ion-col>
-                        <ion-col size="2" style="font-size:10px">
-                            Action
-                        </ion-col>
-                    </ion-row>
+            <ion-item [hidden]="true">
+                <ion-label>Choose the Difficulty of the task</ion-label>
+                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                            placeholder="Tap to select.."
+                            (ionChange)="onChangeDifficulty($event)" required #SelectDifficulty>
+                    <ion-select-option value="EXTREMELY_EASY">Extremely Easy</ion-select-option>
+                    <ion-select-option value="VERY_EASY">Very Easy</ion-select-option>
+                    <ion-select-option value="A_BIT_DIFFICULT">A Bit Difficult</ion-select-option>
+                    <ion-select-option value="DIFFICULT">Difficult</ion-select-option>
+                    <ion-select-option value="VERY_DIFFICULT">Very Difficult</ion-select-option>
+                    <ion-select-option value="PENDING">Pending</ion-select-option>
+                </ion-select>
+            </ion-item>
 
-                </ion-grid>
+            <ion-item [hidden]="true">
+                <ion-label>Rate your Progress work </ion-label>
+                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                            placeholder="Tap to select.."
+                            (ionChange)="onChangeProgress($event)" required #SelectProgress>
+                    <ion-select-option value="0">0</ion-select-option>
+                    <ion-select-option value="1">1</ion-select-option>
+                    <ion-select-option value="2">2</ion-select-option>
+                    <ion-select-option value="3">3</ion-select-option>
+                    <ion-select-option value="4">4</ion-select-option>
+                    <ion-select-option value="5">5</ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-item>
 
 
-            </ion-card-content>
 
-        </ion-card>
-        -->
+    </ion-list><br />
+
+    <ion-button expand="full" shape="round" (click)="AddTask()">Submit</ion-button><br /><br />
+
 
     <div class="ion-padding">
         <ion-card>
@@ -194,28 +207,38 @@
 
 
     <form *ngIf="projet;else noProjet">
-        <ion-grid>
+        <ion-grid fixed>
             <ion-row>
-                <ion-col class='my-thin-col'>
-                    <ion-item>
-                        <ion-label>Name</ion-label><ion-label>{{projet.name}}</ion-label>
-                    </ion-item>
+                <ion-col size="12">
+                    <ion-card color="primary">
+                        <ion-card-header>
+                            <ion-card-subtitle>Name</ion-card-subtitle>
+                            <ion-card-title>{{projet.name}}</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+
+                        </ion-card-content>
+
+                    </ion-card>
 
                 </ion-col>
             </ion-row>
+
             <ion-row>
-                <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
-                    <ion-item>
-                        <ion-label>Description</ion-label>
-                    </ion-item>
-                </ion-col>
-                <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
-                    <ion-item>
-                        <ion-label>{{projet.description}}</ion-label>
-                    </ion-item>
+                <ion-col size="12">
+                    <ion-card color="primary">
+                        <ion-card-header>
+                            <ion-card-subtitle></ion-card-subtitle>
+                            <ion-card-title>Description</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            {{projet.description}}
+                        </ion-card-content>
+
+                    </ion-card>
+
                 </ion-col>
             </ion-row>
-
         </ion-grid>
     </form>
 

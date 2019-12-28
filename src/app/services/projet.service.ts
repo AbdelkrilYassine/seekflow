@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { firestore} from 'firebase';
+import * as firebase from 'firebase';
+
 export interface Project {
     id?: string,
     name: string,
@@ -44,7 +47,8 @@ export enum DIFFICULTY {
     A_BIT_DIFFICULT = "A Bit Difficult",
     DIFFICULT = "Difficult",
     VERY_DIFFICULT = "Very Difficult",
-    EXTREMELY_DIFFICULT ="Extremely Difficult",
+    EXTREMELY_DIFFICULT = "Extremely Difficult",
+    PENDING="PENDING"
 
 }
 
@@ -110,5 +114,24 @@ export class ProjetService {
             return this.NotifDoc.delete();
         }
        
+    }
+
+    AddTask(projId: string, t: Task): Promise<void>{
+
+        this.NotifDoc = this.afs.doc('/Projets/' + projId);
+        return this.NotifDoc.ref.update({ Tasks: firebase.firestore.FieldValue.arrayUnion(t) })
+    }
+
+    DeleteTask(projId: string, t: Task): Promise<void> {
+
+        this.NotifDoc = this.afs.doc('/Projets/' + projId);
+        return this.NotifDoc.ref.update({ Tasks: firebase.firestore.FieldValue.arrayRemove(t) })
+    }
+
+    UpdateTask(projId: string, t:Task ): Promise<void> {
+
+        this.NotifDoc = this.afs.doc('/Projets/' + projId);
+        return this.NotifDoc.ref.update({ Tasks: { id: t.id, name: t.name, difficulty: t.difficulty, progress: t.progress, employee: t.employee, status: t.status } })
+
     }
 }

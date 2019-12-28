@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { Chart } from "chart.js";
 import { Router } from '@angular/router';
-import { ProjetService, Project, Task } from 'src/app/services/projet.service';
+import { ProjetService, Project, Task, DIFFICULTY, STATUS } from 'src/app/services/projet.service';
 import { Observable } from 'rxjs'
-import { ToastController } from '@ionic/angular';
+import { ToastController, IonSelect, IonItem, IonList, IonCard } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-detailsprojet',
@@ -14,7 +14,10 @@ export class DetailsprojetPage implements OnInit {
     @ViewChild('barCanvas', { static: false }) barCanvas: ElementRef;
     @ViewChild('doughnutCanvas', { static: false }) doughnutCanvas: ElementRef;
     @ViewChild('lineCanvas', { static: false }) lineCanvas: ElementRef;
-
+    @ViewChild('mySelect', { static: true }) selectRef: IonSelect;
+    @ViewChild('SelectStatus', { static: true }) selectRefStatus: IonSelect;
+    @ViewChild('SelectDifficulty', { static: true }) selectRefDifficulty: IonSelect;
+    @ViewChild('SelectProgress', { static: true }) selectRefProgress: IonSelect;
      barChart: Chart;
      doughnutChart: Chart;
      lineChart: Chart;
@@ -22,11 +25,15 @@ export class DetailsprojetPage implements OnInit {
     projet: Project;
     private taskslist;
     tableStyle = 'dark';
+    Emp: any;
+    NameTask: string = '';
+    NewTask: Task;
+    currentTask: Task;
 
     constructor(private route: ActivatedRoute, private router: Router, private projetService: ProjetService, private toastCtrl: ToastController) {
         let recvData = this.route.snapshot.paramMap.get('id');
         this.projetID = JSON.parse(recvData)
-        
+        console.log(this.Emp);
     }
     
 
@@ -46,17 +53,125 @@ export class DetailsprojetPage implements OnInit {
             this.taskslist = p.Tasks;
         })
 
+        this.Emp=[{ id: '1', name: 'yassine' }, { id: '2', name: 'achref' }, { id: '3', name: 'ali' }];
+
     }
     async open(row) {
-        console.log(row);
+        
 
     }
 
     getCellClass(cell) {
-        console.log(cell);
+       
         return cell.status == 'Pending' ? 'pending_cell' : 'finished_cell';
     }
 
+    onChange(event) {
+        if (this.currentTask != null) {
+            this.currentTask.employee = event.target.value
+            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
+                this.showToast('The task employee has been Updated :)');
+                this.loadProjet();
+            }, err => {
+                this.showToast('There was a problem Updating the task employee :(');
+                console.log(err);
+            });
+
+        }
+    }
+
+    onChangeStatus(event) {
+        
+        if (this.currentTask != null) {
+            this.currentTask.status = event.target.value
+            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
+                this.showToast('The task status has been Updated :)');
+                this.loadProjet();
+            }, err => {
+                    this.showToast('There was a problem Updating the task status :(');
+                console.log(err);
+            });
+
+        }
+    }
+    onChangeDifficulty(event) {
+
+        if (this.currentTask != null) {
+            this.currentTask.difficulty = event.target.value
+            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
+                this.showToast('The task difficulty has been Updated :)');
+                this.loadProjet();
+            }, err => {
+                    this.showToast('There was a problem Updating the task difficulty :(');
+                console.log(err);
+            });
+
+        }
+    }
+    onChangeProgress(event) {
+
+        if (this.currentTask != null) {
+            this.currentTask.progress = event.target.value
+            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
+                this.showToast('The work progress has been Updated :)');
+                this.loadProjet();
+            }, err => {
+                    this.showToast('There was a problem Updating the work progress :(');
+                console.log(err);
+            });
+
+        }
+    }
+    openSelect(row) {
+        this.currentTask = row;
+        this.selectRef.open();
+    }
+
+    openSelectStatus(row) {
+        this.currentTask = row;
+        this.selectRefStatus.open();
+    }
+    openSelectDifficulty(row) {
+        this.currentTask = row;
+        this.selectRefDifficulty.open();
+    }
+    openSelectProgress(row) {
+        this.currentTask = row;
+        this.selectRefProgress.open();
+    }
+
+    AddTask() {
+        if (this.NameTask != null) {
+
+            this.NewTask = { name: this.NameTask, difficulty: DIFFICULTY.PENDING, progress: 0, employee: [], status: STATUS.Pending };
+            this.projetService.AddTask(this.projet.id, this.NewTask).then(() => {
+                this.showToast('Your new task  has been added :)');
+                this.loadProjet();
+            }, err => {
+                this.showToast('There was a problem adding the task :(');
+                console.log(err);
+            });
+        }
+    }
+
+    DeleteTask(row) {
+        this.projetService.DeleteTask(this.projet.id, row).then(() => {
+            this.showToast('The task  has been deleted :)');
+            this.loadProjet();
+        }, err => {
+            this.showToast('There was a problem deleting the task :(');
+            console.log(err);
+        });
+    
+    }
+
+
+    showToast(msg) {
+        this.toastCtrl.create({
+            message: msg,
+            duration: 2000
+        }).then(toast => toast.present());
+    }
 
     barChartMethod() {
         this.barChart = new Chart(this.barCanvas.nativeElement, {

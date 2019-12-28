@@ -30,7 +30,7 @@ export class Tab1Page implements OnInit {
 
     task: Task = {
         name: '',
-        difficulty: DIFFICULTY.VERY_EASY,
+        difficulty: DIFFICULTY.PENDING,
         progress: 0,
         employee: [],
         status: STATUS.Pending
