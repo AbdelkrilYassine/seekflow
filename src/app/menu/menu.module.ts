@@ -16,7 +16,7 @@ const routes: Routes = [
         
         { path: 'main', loadChildren: '../main/main.module#MainPageModule' },
         { path: 'ionic', loadChildren: '../ionic/ionic.module#IonicPageModule' },
-        { path: 'flutter', loadChildren: '../flutter/flutter.module#FlutterPageModule' },
+        { path: 'createprojet', loadChildren: '../createprojet/createprojet.module#CreateprojetPageModule' },
         { path: 'notfication', loadChildren: '../pages/notfication/notfication.module#NotficationPageModule' },
     ]
 

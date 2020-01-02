@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FlutterPage } from './flutter.page';
+import { CreateprojetPage } from './createprojet.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: FlutterPage
+    component: CreateprojetPage
   }
 ];
 
@@ -21,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FlutterPage]
+  declarations: [CreateprojetPage]
 })
-export class FlutterPageModule {}
+export class CreateprojetPageModule {}

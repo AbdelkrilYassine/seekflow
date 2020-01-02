@@ -22,6 +22,51 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen class="ion-padding">
 
+    <h1 >ADD A PROJECT</h1>
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+            <ion-label position="stacked">Project Name <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input [(ngModel)]="name" required type="text"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-label position="stacked">Client <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input [(ngModel)]="client" required type="text"></ion-input>
+        </ion-item>
+
+
+
+
+        <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea [(ngModel)]="description"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Budget</ion-label>
+            <ion-input required type="number" [(ngModel)]="budget"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Start Date</ion-label>
+            <ion-datetime [(ngModel)]="datestart" value="2017-01-01" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Ends</ion-label>
+            <ion-datetime [(ngModel)]="dateend" value="2017-01-01" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+
+    </ion-list>
 </ion-content>
+<ion-footer >
+    <ion-toolbar color="primary">
+        <ion-button expand="full" fill="clear" color="light" (click)="addProjet()">
+            <ion-icon name="checkmark" slot="start"></ion-icon>
+            Add Project
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import { RegisterService, Utilisateur } from 'src/app/services/register.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomePage {
 
     email: string = "";
     password: string = "";
-    constructor(private router: Router,
+    private user;
+    constructor(private router: Router, private userService: RegisterService,
         public toastCtrl: ToastController,
         public alertCtrl: AlertController, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth
         ) {}
@@ -46,22 +48,23 @@ export class HomePage {
                     }
                 }, {
                     text: 'Confirm',
-                    handler: async () => {
-                        const loader = await this.loadingCtrl.create({
-                            duration: 2000
-                        });
+                    handler: async (data) => {
 
-                        loader.present();
-                        loader.onWillDismiss().then(async l => {
-                            const toast = await this.toastCtrl.create({
-                                showCloseButton: true,
-                                message: 'Email was sended successfully.',
-                                duration: 3000,
-                                position: 'bottom'
-                            });
+                        if (this.validateEmail(data.email)) {
 
-                            toast.present();
-                        });
+                          var auth = this.afAuth.auth;
+                            auth.sendPasswordResetEmail(data.email)
+                                .then(() => this.toastShow('Email was sended successfully.'))
+                                .catch((error) => this.toastShow(error));
+
+                                
+                        }
+
+                         else {
+                            this.toastShow('Email is not valid : ( ' + data.email);
+                            
+                        }
+
                     }
                 }
             ]
@@ -74,8 +77,20 @@ export class HomePage {
     async login() {
         const { email, password } = this
         try {
+            const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+            /*
+            this.user = this.userService.getUserDetails(email, password).subscribe(u => {
+                if (u) {
+                    console.log(u);
+                } else {
+                    console.log("Failed");
+                }
+            })
+            */
+  
 
-            const res = await this.afAuth.auth.signInWithEmailAndPassword(email,password);
+            
+            this.router.navigate(['/menu']);
         } catch (err) {
             console.dir(err);
             if (err.code = "auth/user-not-found") {
@@ -83,5 +98,51 @@ export class HomePage {
             }
 
         }
+    }
+
+    resetpassword(email) {
+        var auth = this.afAuth.auth;
+        var emailAddress = email;
+
+        auth.sendPasswordResetEmail(emailAddress).then(function () {
+            // Email sent.
+        }).catch(function (error) {
+            // An error happened.
+        });
+    }
+    resetPassword(email: string) {
+        var auth = this.afAuth.auth;
+        return auth.sendPasswordResetEmail(email.toString())
+            .then(() => console.log("email sent"))
+            .catch((error) => console.log(error))
+    }
+
+    validateEmail(data):boolean {
+        if (/(.+)@(.+){2,}\.(.+){2,}/.test(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    async toastShow(message) {
+
+
+        const loader = await this.loadingCtrl.create({
+            duration: 2000
+        });
+
+        loader.present();
+
+        loader.onWillDismiss().then(async l => {
+            const toast = await this.toastCtrl.create({
+                showCloseButton: true,
+                message: message,
+                duration: 3000,
+                position: 'bottom'
+            });
+            toast.present();
+        });
+            
     }
 }

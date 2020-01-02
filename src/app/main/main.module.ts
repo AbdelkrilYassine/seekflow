@@ -9,7 +9,7 @@ import { MainPage } from './main.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: 'main',
     component: MainPage,
     children: [
 
@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'tabs/tab1',
+        redirectTo: 'main/tab1',
         pathMatch:'full'
     }
 ];
