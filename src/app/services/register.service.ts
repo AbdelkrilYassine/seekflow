@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference, AngularFirestoreDocument} from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 export interface Utilisateur {
     id?: string,
@@ -22,7 +23,7 @@ export class RegisterService {
     private userDoc: AngularFirestoreDocument<Utilisateur>;
     private user: Utilisateur;
 
-    constructor(private afs: AngularFirestore) {
+    constructor(private afs: AngularFirestore, public afAuth: AngularFireAuth) {
         this.userCollection = this.afs.collection<Utilisateur>('Utilisateurs');
         this.utilisateurs = this.userCollection.snapshotChanges().pipe(
             map(actions => {
@@ -57,24 +58,30 @@ export class RegisterService {
         return this.userCollection.doc(user.id).update({ name: user.name, email: user.email, password: user.password, type: user.type, notfication: user.notfication });
     }
 
+    updateUserNotif(id:string,notif:boolean): Promise<void> {
+        return this.userCollection.doc(id).update({ notfication: notif });
+    }
+
     deleteUser(id: string): Promise<void> {
         return this.userCollection.doc(id).delete();
     }
 
-    getUserDetails(email: string, password: string):Observable<Utilisateur> {
-        /*
-        this.userCollection = this.afs.collection<Utilisateur>('Utilisateurs',
-            ref => ref.where('email', '==', "yassine_abdelkrim@yahoo.fr").where('password', '==', "123456")
-                .limit(1));
+    logout(): boolean {
+        let x = false;
+        this.afAuth.auth.signOut()
+            .then(function () {
+                x=true;
 
-         this.userCollection.valueChanges()
-            .pipe(
-                map(users => {
-                    const user = users[0];
-                    return user;
-                })
-            );
-            */
+            })
+            .catch(function (error) {
+                console.log(error);
+                x= false;
+            });
+        return x;
+    }
+
+    getUserDetails(email: string, password: string):Observable<Utilisateur> {
+    
 
         return this.afs.collection<Utilisateur>('Utilisateurs', ref => ref.where('email',
             '==', email))
@@ -91,15 +98,6 @@ export class RegisterService {
                 }
             }));
  
-        /*
-        if (x != null) {
-            return x;
-        } else {
-            return "Empty"
-        }
-
-*/
-    
  
         //yassine_abdelkrim@yahoo.fr
     }

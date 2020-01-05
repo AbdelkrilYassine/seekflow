@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras} from '@angular/router';
 import { ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
@@ -78,19 +78,21 @@ export class HomePage {
         const { email, password } = this
         try {
             const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-            /*
+            
             this.user = this.userService.getUserDetails(email, password).subscribe(u => {
                 if (u) {
-                    console.log(u);
+                    let navigationExtras: NavigationExtras = {
+                        queryParams: {
+                            special: JSON.stringify(u.id)
+                        }
+                    };
+                    this.router.navigate(['/menu'], navigationExtras);
                 } else {
                     console.log("Failed");
                 }
             })
-            */
-  
-
-            
-            this.router.navigate(['/menu']);
+                        
+           
         } catch (err) {
             console.dir(err);
             if (err.code = "auth/user-not-found") {

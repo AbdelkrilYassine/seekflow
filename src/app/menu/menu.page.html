@@ -1,68 +1,89 @@
 
-    <ion-menu contentId="content">
+<ion-menu contentId="content">
 
-        <ion-header>
-            <ion-toolbar color="secondary">
+    <ion-header>
+        <ion-toolbar color="secondary" *ngIf="user;else noUser">
 
 
-                <img src="./assets/icon/manager.png" class="custom-avatar" />
-                <span>
-                    Yassine ben abdelkrim
+            <img src="./assets/icon/manager.png" class="custom-avatar" />
+            <span>
+                {{ user.name }}
 
-                </span>
-                <ion-button size="small" shape="round"><ion-icon name="log-out"></ion-icon></ion-button>
-                <hr>
+            </span>
+            <ion-button size="small" shape="round" (click)="logout()"><ion-icon name="log-out" ></ion-icon></ion-button>
+            <hr>
 
-            </ion-toolbar>
-        </ion-header>
-        <ion-content>
-                <ion-item >
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-item *ngIf="user;else noUser">
 
-                    <ion-icon name="notifications" slot="start"></ion-icon>
-                    <ion-label> Notfication </ion-label>
-                    <ion-toggle color="primary"></ion-toggle>
-
-                </ion-item>
-
-            <!-- 
-            <div *ngFor="let p of pages">
-                <ion-menu-toggle *ngIf="p.url">
-                    <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
-                        <ion-icon [name]="p.icon" slot="start"></ion-icon>
-                        <ion-label> {{ p.title }} </ion-label>
-                    </ion-item>
-                </ion-menu-toggle>
-
-                <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
-                    <ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
-                    <ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
-                    <ion-label> {{ p.title }} </ion-label>
-                </ion-item>
-
-                <ion-list *ngIf="p.open">
-                    <ion-menu-toggle>
-                        <ion-item class="sub-item" *ngFor="let sub of p.children" [routerLink]="sub.url" routerDirection="root" routerLinkActive="active">
-                            <ion-icon [name]="sub.icon" slot="start"></ion-icon>
-                            <ion-label> {{ sub.title }} </ion-label>
-                        </ion-item>
-                    </ion-menu-toggle>
-                </ion-list>
+            <ion-icon name="notifications" slot="start"></ion-icon>
+            <ion-label> Notfication </ion-label>
+            <div *ngIf="user.notfication==true">
+                <ion-toggle checked="true" (ionChange)="Change_Toggle($event,user.id)" color="primary"></ion-toggle>
 
             </div>
-            -->
-            <ion-list>
+            <div *ngIf="user.notfication==false">
+                <ion-toggle checked="false" (ionChange)="Change_Toggle($event,user.id)" color="primary"></ion-toggle>
 
-                <ion-menu-toggle *ngFor="let p of pages" auto-hide="false">
-                    <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
-                        <ion-label>
-                            {{p.title}}
-                        </ion-label>
+            </div>
 
-                    </ion-item>
+        </ion-item>
 
-                </ion-menu-toggle>
-            </ion-list>
+        <!--
+    <div *ngFor="let p of pages">
+        <ion-menu-toggle *ngIf="p.url">
+            <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
+                <ion-icon [name]="p.icon" slot="start"></ion-icon>
+                <ion-label> {{ p.title }} </ion-label>
+            </ion-item>
+        </ion-menu-toggle>
 
-        </ion-content>
-    </ion-menu>
+        <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
+            <ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
+            <ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
+            <ion-label> {{ p.title }} </ion-label>
+        </ion-item>
+
+        <ion-list *ngIf="p.open">
+            <ion-menu-toggle>
+                <ion-item class="sub-item" *ngFor="let sub of p.children" [routerLink]="sub.url" routerDirection="root" routerLinkActive="active">
+                    <ion-icon [name]="sub.icon" slot="start"></ion-icon>
+                    <ion-label> {{ sub.title }} </ion-label>
+                </ion-item>
+            </ion-menu-toggle>
+        </ion-list>
+
+    </div>
+    -->
+        <ion-list>
+
+            <ion-menu-toggle *ngFor="let p of pages" auto-hide="false">
+                <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
+                    <div>
+                        <ion-icon name="{{p.icon}}"></ion-icon>
+
+                    </div>
+
+                    <ion-label>
+                        {{p.title}}
+                    </ion-label>
+
+                </ion-item>
+
+            </ion-menu-toggle>
+        </ion-list>
+
+
+
+    </ion-content>
+</ion-menu>
 <ion-router-outlet id="content" main></ion-router-outlet>
+
+<ng-template #noUser>
+
+    <hr />
+    <h5>This user is not available</h5>
+
+</ng-template>

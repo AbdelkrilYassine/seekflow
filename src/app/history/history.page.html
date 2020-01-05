@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col class="ion-no-padding" col-6>
+                    <ion-segment [(ngModel)]="joined" color="light">
+                        <ion-segment-button [value]="focus">
+                            <ion-menu-button color="primary"></ion-menu-button>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus" (click)="pagenotif()">
+                            <ion-icon name="notifications" color="primary"></ion-icon>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus">
+                            <ion-icon name="chatboxes" color="primary"></ion-icon>
+                        </ion-segment-button>
+                    </ion-segment>
+
+                </ion-col>
+
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+</ion-content>

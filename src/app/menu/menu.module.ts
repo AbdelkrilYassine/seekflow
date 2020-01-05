@@ -10,20 +10,20 @@ import { MenuPage } from './menu.page';
 const routes: Routes = [
 
   {
-    path: 'menu',
+    path: 'menupage',
     component: MenuPage,
     children: [
         
         { path: 'main', loadChildren: '../main/main.module#MainPageModule' },
-        { path: 'ionic', loadChildren: '../ionic/ionic.module#IonicPageModule' },
-        { path: 'createprojet', loadChildren: '../createprojet/createprojet.module#CreateprojetPageModule' },
-        { path: 'notfication', loadChildren: '../pages/notfication/notfication.module#NotficationPageModule' },
+        { path: 'profile', loadChildren: '../profile/profile.module#ProfilePageModule' },
+        { path: 'settings', loadChildren: '../settings/settings.module#SettingsPageModule' },
+        { path: 'history', loadChildren: '../history/history.module#HistoryPageModule' },
     ]
 
     },
         {
         path: '',
-        redirectTo: 'menu/main',
+        redirectTo: 'menupage/main',
         pathMatch: 'full'
     },
 ];
