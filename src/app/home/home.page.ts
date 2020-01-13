@@ -14,6 +14,7 @@ export class HomePage {
 
     email: string = "";
     password: string = "";
+    userID: string;
     private user;
     constructor(private router: Router, private userService: RegisterService,
         public toastCtrl: ToastController,
@@ -81,12 +82,14 @@ export class HomePage {
             
             this.user = this.userService.getUserDetails(email, password).subscribe(u => {
                 if (u) {
+                    this.userID = u.id;
+
                     let navigationExtras: NavigationExtras = {
                         queryParams: {
                             special: JSON.stringify(u.id)
                         }
                     };
-                    this.router.navigate(['/menu'], navigationExtras);
+                    this.router.navigate(['/menu/' + this.userID + '/menupage/main/' + this.userID + '/homepage/tab1/' + this.userID]);//navigationExtras
                 } else {
                     console.log("Failed");
                 }

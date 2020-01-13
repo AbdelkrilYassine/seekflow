@@ -14,10 +14,10 @@ const routes: Routes = [
     component: MenuPage,
     children: [
         
-        { path: 'main', loadChildren: '../main/main.module#MainPageModule' },
-        { path: 'profile', loadChildren: '../profile/profile.module#ProfilePageModule' },
-        { path: 'settings', loadChildren: '../settings/settings.module#SettingsPageModule' },
-        { path: 'history', loadChildren: '../history/history.module#HistoryPageModule' },
+        { path: 'main/:id', loadChildren: '../main/main.module#MainPageModule' },
+        { path: 'profile/:id', loadChildren: '../profile/profile.module#ProfilePageModule' },
+        { path: 'settings/:id', loadChildren: '../settings/settings.module#SettingsPageModule' },
+        { path: 'history/:id', loadChildren: '../history/history.module#HistoryPageModule' },
     ]
 
     },

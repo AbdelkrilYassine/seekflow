@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProjetService, Project, Task, STATUS, DIFFICULTY } from 'src/app/services/projet.service';
 import { Observable } from 'rxjs'
 import { ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -36,15 +36,20 @@ export class Tab1Page implements OnInit {
         status: STATUS.Pending
     };
     projects: Project[] = [];
+    userID: string;
+    private sub: any;
 
 
-
-    constructor(private router: Router, private projetService: ProjetService, private toastCtrl: ToastController, private activatedRoute: ActivatedRoute) {
+    constructor(private router: Router, private route: ActivatedRoute, private projetService: ProjetService, private toastCtrl: ToastController, private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
 
+        this.sub = this.route.params.subscribe(params => {
+            this.userID = params['id']
 
+        });
+        console.log(this.userID);
         this.loadproject();
     }
     pagenotif() {
@@ -134,7 +139,9 @@ export class Tab1Page implements OnInit {
         }
         return null;
     }
-
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
 
 
 }

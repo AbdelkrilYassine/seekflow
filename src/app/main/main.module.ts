@@ -13,9 +13,9 @@ const routes: Routes = [
     component: MainPage,
     children: [
 
-        { path: 'tab1', loadChildren: '../pages/tab1/tab1.module#Tab1PageModule' },
-        { path: 'tab2', loadChildren: '../pages/tab2/tab2.module#Tab2PageModule' },
-        { path: 'tab3', loadChildren: '../pages/tab3/tab3.module#Tab3PageModule' },
+        { path: 'tab1/:id', loadChildren: '../pages/tab1/tab1.module#Tab1PageModule' },
+        { path: 'tab2/:id', loadChildren: '../pages/tab2/tab2.module#Tab2PageModule' },
+        { path: 'tab3/:id', loadChildren: '../pages/tab3/tab3.module#Tab3PageModule' },
     ]
 
     },

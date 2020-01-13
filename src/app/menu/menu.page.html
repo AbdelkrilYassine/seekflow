@@ -15,8 +15,8 @@
 
         </ion-toolbar>
     </ion-header>
-    <ion-content>
-        <ion-item *ngIf="user;else noUser">
+    <ion-content *ngIf="user;else noUser">
+        <ion-item >
 
             <ion-icon name="notifications" slot="start"></ion-icon>
             <ion-label> Notfication </ion-label>
@@ -31,10 +31,10 @@
 
         </ion-item>
 
-        <!--
+
     <div *ngFor="let p of pages">
         <ion-menu-toggle *ngIf="p.url">
-            <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
+            <ion-item  [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
                 <ion-icon [name]="p.icon" slot="start"></ion-icon>
                 <ion-label> {{ p.title }} </ion-label>
             </ion-item>
@@ -56,26 +56,32 @@
         </ion-list>
 
     </div>
+
+        <!--
+            <ion-list>
+
+                <ion-menu-toggle *ngFor="let p of pages" auto-hide="false" >
+                    <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
+
+                        <ion-icon slot="start" name="{{p.icon}}"></ion-icon>
+
+
+                        <ion-label>
+                            {{p.title}}
+                        </ion-label>
+
+                    </ion-item>
+
+                        <ion-item class="sub-item" *ngFor="let sub of p.children" [routerLink]="sub.url" routerDirection="root" routerLinkActive="active">
+                            <ion-icon [name]="sub.icon" slot="start"></ion-icon>
+                            <ion-label> {{ sub.title }} </ion-label>
+                        </ion-item>
+
+                </ion-menu-toggle>
+
+
+            </ion-list>
     -->
-        <ion-list>
-
-            <ion-menu-toggle *ngFor="let p of pages" auto-hide="false">
-                <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
-                    <div>
-                        <ion-icon name="{{p.icon}}"></ion-icon>
-
-                    </div>
-
-                    <ion-label>
-                        {{p.title}}
-                    </ion-label>
-
-                </ion-item>
-
-            </ion-menu-toggle>
-        </ion-list>
-
-
 
     </ion-content>
 </ion-menu>

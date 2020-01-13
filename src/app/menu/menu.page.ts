@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterEvent,  ActivatedRoute} from '@angular/router';
+import { Router, RouterEvent, ActivatedRoute} from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { RegisterService, Utilisateur } from 'src/app/services/register.service';
@@ -10,63 +10,40 @@ import {  Subscription} from 'rxjs';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-    pages = [{
-        title: 'Dashboard',
-        url: '/menu/menupage/main',
-        icon: 'easel'
-    },
-    {
-       title: 'Profile',
-        url: '/menu/menupage/profile',
-       icon: 'person'
-    },
-    {
-       title: 'Settings',
-        url: '/menu/menupage/settings',
-       icon: 'settings'
-    },
-    {
-       title: 'History',
-       children: [
-            {
-               title: 'Projects',
-               url: '/menu/menupage/history',
-               icon: 'archive'
-            }
-
-        ]
-        }
+    pages = [
      ];
 
     selectedPath = '';
     userID: string;
     private subscription: Subscription;
     user: Utilisateur;
-
+    private sub: any;
     constructor(private route: ActivatedRoute, private router: Router, public afAuth: AngularFireAuth, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private userService: RegisterService) {
-        this.router.events.subscribe((event: RouterEvent) => {
-
-            if (event && event.url) {
-                this.selectedPath = event.url;
-            }
-        })
-
-        this.route.queryParams.subscribe(params => {
+       /* this.route.queryParams.subscribe(params => {
             if (params && params.special) {
                 this.userID = JSON.parse(params.special);
             }
-        }); 
+        }); */
+
+
     }
 
     ngOnInit() {
+        this.sub = this.route.params.subscribe(params => {
+            this.userID = params['id']
+
+        });
         this.loadUser();
+        this.loadPages(this.userID);
   }
 
     ionViewDidEnter() {
         this.loadUser();
+        this.loadPages(this.userID);
     }
     ionViewWillEnter() {
         this.loadUser();
+        this.loadPages(this.userID);
     }
     loadUser() {
         if (this.userID != null) {
@@ -78,6 +55,48 @@ export class MenuPage implements OnInit {
         }
     }
 
+    loadPages(id) {
+        if (id != null && id != '') {
+            this.pages = [{
+                title: 'Dashboard',
+                url: '/menu/' + id + '/menupage/main/' + id + '/homepage/tab1/' + id,
+                icon: 'easel'
+            },
+            {
+                title: 'Profile',
+                url: '/menu/'+id+'/menupage/profile/'+id,
+                icon: 'person'
+            },
+            {
+                title: 'Settings',
+                url: '/menu/'+id+'/menupage/settings/'+id,
+                icon: 'settings'
+            },
+            {
+                title: 'History',
+                icon: 'archive',
+                children: [
+                    {
+                        title: 'Projects',
+                        url: '/menu/'+id+'/menupage/history/'+id,
+                        icon: 'albums'
+                    }
+
+                ]
+            }
+            ];
+
+            this.router.events.subscribe((event: RouterEvent) => {
+
+                if (event && event.url) {
+                    this.selectedPath = event.url;
+
+                }
+            })
+
+        }
+
+    }
     Change_Toggle(event,id) {
 
         this.userService.updateUserNotif(id, event.detail.checked);
@@ -90,7 +109,7 @@ export class MenuPage implements OnInit {
 
 
         const loader = await this.loadingCtrl.create({
-            duration: 2000
+            duration: 1000
         });
 
         loader.present();
@@ -109,8 +128,9 @@ export class MenuPage implements OnInit {
      logout() {
 
          if (this.userService.logout) {
-             this.router.navigate(['/home'])
+             
              this.toastShow('Sign-out successful :) ');
+             this.router.navigate(['/home'])
          } else {
              this.toastShow('Error logout :( ');
          }
@@ -118,7 +138,11 @@ export class MenuPage implements OnInit {
      }
 
     ngOnDestroy() {
+        this.sub.unsubscribe();
         this.subscription.unsubscribe();
   
     }
+
+
+    
 }

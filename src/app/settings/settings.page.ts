@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -7,13 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+    userID: string;
+    private sub: any;
+    constructor(private router: Router, private route: ActivatedRoute) {
 
-    constructor(private router: Router) { }
 
-  ngOnInit() {
+    }
+
+    ngOnInit() {
+
+        this.sub = this.route.params.subscribe(params => {
+            this.userID = params['id']
+
+        });
   }
     pagenotif() {
         this.router.navigateByUrl('/notfication');
 
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }

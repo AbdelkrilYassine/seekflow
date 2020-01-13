@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'splashscreen', loadChildren: './splashscreen/splashscreen.module#SplashscreenPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
+  { path: 'menu/:id', loadChildren: './menu/menu.module#MenuPageModule' },
   { path: 'dashboardchef', loadChildren: './dashboardchef/dashboardchef.module#DashboardchefPageModule' },
   { path: 'detailsprojet/:id', loadChildren: './detailsprojet/detailsprojet.module#DetailsprojetPageModule' },
   { path: 'notfication', loadChildren: './pages/notfication/notfication.module#NotficationPageModule' },

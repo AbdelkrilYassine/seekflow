@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -7,13 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
+    userID: string;
+    private sub: any;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private route: ActivatedRoute) {
 
-  ngOnInit() {
+    }
+
+    ngOnInit() {
+
+        this.sub = this.route.params.subscribe(params => {
+            this.userID = params['id']
+
+        });
   }
     pagenotif() {
         this.router.navigateByUrl('/notfication');
 
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }
