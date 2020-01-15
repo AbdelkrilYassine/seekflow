@@ -3,3 +3,17 @@ h1 {
     color: #f88e55;
     margin-bottom: 50px !important;
 }
+.flex {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.img-box {
+    height: 200px;
+    overflow: hidden;
+}
+
+img {
+    height: 200px;
+}

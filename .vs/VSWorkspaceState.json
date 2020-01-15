@@ -3,14 +3,14 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\home",
+    "\\src\\app\\menu",
     "\\src\\app\\pages",
     "\\src\\app\\pages\\tab1",
     "\\src\\app\\pages\\tab2",
-    "\\src\\app\\pages\\tab3",
-    "\\src\\app\\profile",
-    "\\src\\app\\register",
-    "\\src\\app\\services"
+    "\\src\\assets",
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\pages\\tab1\\tab1.page.ts",
+  "SelectedNode": "\\src\\app\\services\\projet.service.ts",
   "PreviewInSolutionExplorer": false
 }

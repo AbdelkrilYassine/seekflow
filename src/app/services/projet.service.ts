@@ -21,7 +21,7 @@ export interface Project {
     ProjectFollow: number,
     CreatedByApp: boolean,
     etat: STATUS,
-
+    imgPath: string;
 
 }
 

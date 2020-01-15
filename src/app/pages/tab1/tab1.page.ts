@@ -26,6 +26,7 @@ export class Tab1Page implements OnInit {
         ProjectFollow: 0,
         CreatedByApp: true,
         etat: STATUS.Pending,
+        imgPath:""
     };
 
     task: Task = {
@@ -59,43 +60,8 @@ export class Tab1Page implements OnInit {
 
     loadproject() {
 
-        this.proj = {
-            name: 'Firebase',
-            chef: 'F6Js4HwdwZpuRna3HNxy',
-            client: 'F6Js4HwdwZpuRna3HNxy',
-            dev_team: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
-            deadline: '10/10/10',
-            description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            budget: 666,
-            Tasks: [
-                {
-                    name: 'API REST',
-                    difficulty: DIFFICULTY.EXTREMELY_DIFFICULT,
-                    progress: 2,
-                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
-                    status: STATUS.Pending
 
-                },
-                {
-                    name: 'API Spring',
-                    difficulty: DIFFICULTY.DIFFICULT,
-                    progress: 4,
-                    employee: ['F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy', 'F6Js4HwdwZpuRna3HNxy'],
-                    status: STATUS.Pending
-
-                },
-
-            ],
-            feedback: 50,
-            ROI: 0,
-            TasksFollow: 0,
-            ProjectFollow: 0,
-            CreatedByApp: true,
-            etat: STATUS.In_Progress
-
-        };
-       // this.projetService.addProjet(this.proj);
-        this.projetService.getmyProjects('chef', 'F6Js4HwdwZpuRna3HNxy').subscribe(p => {
+        this.projetService.getmyProjects('chef', this.userID).subscribe(p => {
             this.projects = p;
 
         })
