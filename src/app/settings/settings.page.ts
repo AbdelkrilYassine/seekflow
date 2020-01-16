@@ -29,4 +29,8 @@ export class SettingsPage implements OnInit {
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
+
+    onChangeGender(event) {
+        console.log(event.target.value);
+    }
 }

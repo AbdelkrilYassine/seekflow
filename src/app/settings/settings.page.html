@@ -23,6 +23,66 @@
 </ion-header>
 
 <ion-content>
-    <h1>This is Settings</h1>
-    <h2>{{userID}}</h2>
-</ion-content>
+    <ion-content class="ion-padding">
+
+        <ion-item>
+            <ion-label position="stacked">Name</ion-label>
+            <ion-input [(ngModel)]="Name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-textarea [(ngModel)]="Email"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Password</ion-label>
+            <ion-textarea [(ngModel)]="Password"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+
+            <ion-label position="stacked">Gender</ion-label>
+            <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                        placeholder="
+                                                      Select One.."
+                        (ionChange)="onChangeGender($event)" required>
+                <ion-select-option value="Female">Female</ion-select-option>
+                <ion-select-option value="Male">Male</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+
+            <ion-label position="stacked">City</ion-label>
+            <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                        placeholder="
+                                                      Select One.."
+                        (ionChange)="onChangeCity($event)" required>
+                <ion-select-option value="Female">Female</ion-select-option>
+
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Mobile</ion-label>
+            <ion-textarea [(ngModel)]="Mobile"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Occupation</ion-label>
+            <ion-textarea [(ngModel)]="Occupation"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">LinkedIN</ion-label>
+            <ion-textarea [(ngModel)]="LinkedIN"></ion-textarea>
+        </ion-item>
+
+        <ion-button expand="full" fill="solid" (click)="updateUser()">
+            <ion-icon name="save" slot="start"></ion-icon>
+            Update
+        </ion-button>
+
+
+    </ion-content>
