@@ -29,7 +29,9 @@ export class DetailsprojetPage implements OnInit {
     NameTask: string = '';
     NewTask: Task;
     currentTask: Task;
-
+    automaticClose = false;
+    information: any[];
+   
     constructor(private route: ActivatedRoute, private router: Router, private projetService: ProjetService, private toastCtrl: ToastController) {
         let recvData = this.route.snapshot.paramMap.get('id');
         this.projetID = JSON.parse(recvData)
@@ -51,10 +53,29 @@ export class DetailsprojetPage implements OnInit {
         this.projetService.getProjetById(this.projetID).subscribe(p => {
             this.projet = p;
             this.taskslist = p.Tasks;
+            this.information = [{
+                'name': 'Business Indicators'
+            }
+                
+            ,
+                {
+                    'name': 'Description'
+                   
+            },
+                {
+                    'name': 'Tasks',
+                    'value': p.Tasks
+            }
+
+            ];
+            
         })
 
-        this.Emp=[{ id: '1', name: 'yassine' }, { id: '2', name: 'achref' }, { id: '3', name: 'ali' }];
+        this.Emp = [{ id: '1', name: 'yassine' }, { id: '2', name: 'achref' }, { id: '3', name: 'ali' }];
 
+
+        
+        
     }
     async open(row) {
         
@@ -272,4 +293,22 @@ export class DetailsprojetPage implements OnInit {
         });
     }
  
+
+    toggleSection(index) {
+
+        this.information[index].open = !this.information[index].open;
+
+        if (this.automaticClose && this.information[index].open) {
+
+            this.information.filter((item, itemIndex) => itemIndex != index)
+            .map(item => item.open =false);
+
+        }
+    }
+
+    toggleItem(index, childIndex) {
+        this.information[index].children[childIndex].open = !this.information[index].children[childIndex].open;
+    }
+
+
 }

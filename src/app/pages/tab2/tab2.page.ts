@@ -14,14 +14,14 @@ import { Subscription } from 'rxjs';
 export class Tab2Page implements OnInit {
     userID: string;
     private sub: any;
-    image = 'assets/icon/imageholder.jpg';
+   image = 'assets/icon/projectholder.png';
     upload: any;
 
 
     name: string = "";
     client: string = "";
     description: string = "";
-    budget: number;
+    budget: string="";
     datestart: string = "";
     dateend: string = "";
 
@@ -45,7 +45,7 @@ export class Tab2Page implements OnInit {
         etat: STATUS.Pending,
         imgPath:"",
     };
-    val: boolean = false;
+    private val: boolean = false;
 
     constructor(private router: Router, private route: ActivatedRoute, private camera: Camera, public loadingController: LoadingController, public alertController: AlertController, public afSG: AngularFireStorage, public toastCtrl: ToastController, private projetService: ProjetService) { }
 
@@ -89,33 +89,10 @@ export class Tab2Page implements OnInit {
     async addPhoto() {
         const libraryImage = await this.openLibrary();
         this.image = 'data:image/jpg;base64,' + libraryImage;
+        this.val = true;
     }
 
-    async AddPhotoFireStorage(id) {
-        const loading = await this.loadingController.create({
-            duration: 2000
-        });
-        await loading.present();
 
-        this.upload = this.afSG.ref(id).putString(this.image, 'data_url');
-        this.upload.then(async () => {
-            this.val = true;
-            await loading.onDidDismiss();
-            this.image = 'assets/icon/imageholder.jpg';
-
-
-            const alert = await this.alertController.create({
-                header: 'Successful',
-                message: 'Your project was added :) ',
-                buttons: ['OK']
-            });
-            await alert.present();
-
-        }, (err) => {
-                this.toastShow(err);
-            }
-        );
-    }
 
     async toastShow(message) {
 
@@ -129,9 +106,10 @@ export class Tab2Page implements OnInit {
        
     }
 
-    addProjet() {
+   async addProjet() {
 
-        if (this.name != "" && this.client != "" && this.description != "" && this.budget > 0 && this.VerifDate() && this.userID !=null) {
+
+        if (this.name != "" && this.client != "" && this.description != "" && Number(this.budget )> 0 && this.VerifDate() && this.userID !=null) {
 
               
 
@@ -142,24 +120,50 @@ export class Tab2Page implements OnInit {
                 dev_team: [],
                 deadline: this.dateend,
                 description: this.description,
-                budget: this.budget,
+                budget: Number(this.budget),
                 Tasks: [],
                 feedback: 0,
                 ROI: 0,
                 TasksFollow: 0,
                 ProjectFollow: 0,
                 CreatedByApp: true,
-                etat: STATUS.In_Progress,
+                etat: STATUS.Pending,
                 imgPath: this.userID + this.client+this.name
             };
 
-            this.projetService.addProjet(this.proj).then( () => {
+            if (this.val == true) {
 
-                this.AddPhotoFireStorage(this.userID + this.client + this.name);
+                const loading = await this.loadingController.create({
+                    duration: 2000
+                });
+                await loading.present();
 
-            }, (err) => {
-                this.toastShow('Failed adding the project :( ' + err);
-            });
+                this.upload = this.afSG.ref('picturesProject/' + this.userID).putString(this.image, 'data_url');
+                this.upload.then(async () => {
+
+                    await loading.onDidDismiss();
+                    this.image = 'assets/icon/imageholder.jpg';
+                    this.projetService.addProjet(this.proj).then(() => {
+
+                        this.toastShow("Project added successfully! :) ");
+                        this.init();
+                    }, (err) => {
+                            this.toastShow('Failed adding the project :( ' + err);
+                            this.init();
+                    });
+
+
+                }, (err) => {
+                    this.toastShow(err);
+                    this.init();
+                    this.image = 'assets/icon/projectholder.png';
+                }
+                );
+            }
+            else {
+                this.toastShow('Please choose a picture !');
+            }
+
 
 
         } else {
@@ -200,6 +204,15 @@ export class Tab2Page implements OnInit {
 
     }
 
+    init() {
+
+        this.name = "";
+        this.client= "";
+        this.description = "";
+        this.budget="";
+        this.datestart="";
+        this.dateend="";
+    }
 
     DateDeadlineDisplay(ev) {
        

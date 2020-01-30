@@ -10,7 +10,12 @@ export interface Utilisateur {
     name: string,
     email: string,
     password: string,
-    notfication:boolean
+    notfication: boolean,
+    gender?: string,
+    city?: string,
+    mobile?: string,
+    occupation?: string,
+    linkedin?: string,
 }
 
 @Injectable({
@@ -54,8 +59,8 @@ export class RegisterService {
         return this.userCollection.add(user);
     }
 
-    updateUser(user: Utilisateur): Promise<void> {
-        return this.userCollection.doc(user.id).update({ name: user.name, email: user.email, password: user.password, type: user.type, notfication: user.notfication });
+    updateUser(id:string,user: Utilisateur): Promise<void> {
+        return this.userCollection.doc(id).update({ name: user.name, email: user.email, password: user.password, type: user.type, notfication: user.notfication, gender: user.gender, city: user.city, mobile: user.mobile, occupation: user.occupation, linkedin: user.linkedin });
     }
 
     updateUserNotif(id:string,notif:boolean): Promise<void> {

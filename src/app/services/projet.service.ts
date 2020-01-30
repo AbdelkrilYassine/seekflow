@@ -105,6 +105,24 @@ export class ProjetService {
             })
         );
     }
+
+    countmyProjects(id: string): Observable<Project[]>  {
+        this.projCollection = this.afs.collection('Projets', ref => {
+            return ref.where("chef", '==', id).orderBy("name", "asc")
+        });
+         return this.projets = this.projCollection.snapshotChanges().pipe(
+            map(actions => {
+                return actions.map(a => {
+                    const data = a.payload.doc.data() as Project;
+                    const id = a.payload.doc.id;
+                    return { id, ...data };
+                });
+            })
+         );
+
+        
+    }
+
     getAllProjects() {
         return this.projets;
     }

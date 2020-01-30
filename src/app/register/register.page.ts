@@ -14,7 +14,7 @@ export class RegisterPage implements OnInit {
         type: null,
         email: '',
         password: '',
-        notfication: true
+        notfication: true,
     };
     name: string = "";
     email: string = "";

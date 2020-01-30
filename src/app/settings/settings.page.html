@@ -25,20 +25,23 @@
 <ion-content>
     <ion-content class="ion-padding">
 
+
+        <ion-button (click)="addPhoto()" color="tertiary" expand="block">
+            <ion-icon name="image" slot="start"></ion-icon>
+            Open Gallery
+        </ion-button>
+
+        <div class="flex">
+            <div class="img-box">
+                <img [src]="image">
+            </div>
+        </div>
+
         <ion-item>
             <ion-label position="stacked">Name</ion-label>
             <ion-input [(ngModel)]="Name"></ion-input>
         </ion-item>
 
-        <ion-item>
-            <ion-label position="stacked">Email</ion-label>
-            <ion-textarea [(ngModel)]="Email"></ion-textarea>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="stacked">Password</ion-label>
-            <ion-textarea [(ngModel)]="Password"></ion-textarea>
-        </ion-item>
 
         <ion-item>
 
@@ -55,11 +58,34 @@
         <ion-item>
 
             <ion-label position="stacked">City</ion-label>
-            <ion-select [(ngModel)]="selectedValue" name="selectCode"
+            <ion-select [(ngModel)]="selectedValue2" name="selectCode2"
                         placeholder="
                                                       Select One.."
                         (ionChange)="onChangeCity($event)" required>
-                <ion-select-option value="Female">Female</ion-select-option>
+                <ion-select-option value="Ariana">Ariana</ion-select-option>
+                <ion-select-option value="Beja">Beja</ion-select-option>
+                <ion-select-option value="Ben Arous">Ben Arous</ion-select-option>
+                <ion-select-option value="Bizerte">Bizerte</ion-select-option>
+                <ion-select-option value="Gabes">Gabes</ion-select-option>
+                <ion-select-option value="Gafsa">Gafsa</ion-select-option>
+                <ion-select-option value="Jendouba">Jendouba</ion-select-option>
+                <ion-select-option value="Kairouan">Kairouan</ion-select-option>
+                <ion-select-option value="Kasserine">Kasserine</ion-select-option>
+                <ion-select-option value="Kebili">Kebili</ion-select-option>
+                <ion-select-option value="La Manouba">La Manouba</ion-select-option>
+                <ion-select-option value="Le Kef">Le Kef</ion-select-option>
+                <ion-select-option value="Mahdia">Mahdia</ion-select-option>
+                <ion-select-option value="Medenine">Medenine</ion-select-option>
+                <ion-select-option value="Monastir">Monastir</ion-select-option>
+                <ion-select-option value="Nabeul">Nabeul</ion-select-option>
+                <ion-select-option value="Sfax">Sfax</ion-select-option>
+                <ion-select-option value="Sidi Bouzid">Sidi Bouzid</ion-select-option>
+                <ion-select-option value="Siliana">Siliana</ion-select-option>
+                <ion-select-option value="Sousse">Sousse</ion-select-option>
+                <ion-select-option value="Tataouine">Tataouine</ion-select-option>
+                <ion-select-option value="Tozeur">Tozeur</ion-select-option>
+                <ion-select-option value="Tunis">Tunis</ion-select-option>
+                <ion-select-option value="Zaghouan">Zaghouan</ion-select-option>
 
             </ion-select>
         </ion-item>

@@ -1,12 +1,74 @@
 <ion-header>
     <ion-toolbar color="secondary">
-        <ion-button slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-button>
-        <ion-title>flutter</ion-title>
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col class="ion-no-padding" col-6>
+                    <ion-segment [(ngModel)]="joined" color="light">
+                        <ion-segment-button [value]="focus">
+                            <ion-menu-button color="primary"></ion-menu-button>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus" (click)="pagenotif()">
+                            <ion-icon name="notifications" color="primary"></ion-icon>
+                        </ion-segment-button>
+                        <ion-segment-button [value]="focus">
+                            <ion-icon name="chatboxes" color="primary"></ion-icon>
+                        </ion-segment-button>
+                    </ion-segment>
+
+                </ion-col>
+
+            </ion-row>
+        </ion-grid>
     </ion-toolbar>
 </ion-header>
+<ion-content>
+    <h1>  ADD A Proposal</h1>
 
-<ion-content fullscreen>
 
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+
+
+
+        <div class="flex">
+            <div class="img-box">
+                <img src="assets/icon/projectholder.png">
+            </div>
+        </div>
+        <div>
+            {{returnpath}}
+        </div>
+        <ion-button (click)="addPDF()" color="tertiary" expand="block">
+            <ion-icon name="pdf" slot="start"></ion-icon>
+            Open Gallery
+        </ion-button>
+
+        <ion-item>
+            <ion-label position="stacked">Project Name <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input [(ngModel)]="name" required type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Budget <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required type="number" [(ngModel)]="budget"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Start Date <ion-text color="danger">*</ion-text></ion-label>
+            <ion-datetime (ionChange)="DateStartDisplay($event)" [(ngModel)]="datestart" picker-format="YYYY-MM-DDTHH:mm" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Deadline <ion-text color="danger">*</ion-text></ion-label>
+            <ion-datetime (ionChange)="DateDeadlineDisplay($event)" [(ngModel)]="dateend" picker-format="MM/DD/YYYY HH:mm" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+    </ion-list>
 </ion-content>
+<ion-footer>
+    <ion-toolbar color="primary">
+        <ion-button expand="full" fill="clear" color="light" (click)="addProjet()">
+            <ion-icon name="checkmark" slot="cloud-upload"></ion-icon>
+            Add Project
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
+

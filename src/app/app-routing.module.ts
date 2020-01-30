@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'detailsprojet/:id', loadChildren: './detailsprojet/detailsprojet.module#DetailsprojetPageModule' },
   { path: 'notfication', loadChildren: './pages/notfication/notfication.module#NotficationPageModule' },
   { path: 'welcome', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
+  { path: 'createprojet', loadChildren: './createprojet/createprojet.module#CreateprojetPageModule' },
 
 
 

@@ -51,13 +51,6 @@ export class UserDetailsPage implements OnInit {
         });
     }
 
-    updateUser() {
-        this.userService.updateUser(this.user).then(() => {
-            this.showToast('User updated');
-        }, err => {
-                this.showToast('There was a problem updating the User :(');
-        });
-    }
 
     showToast(msg) {
         this.toastCtrl.create({

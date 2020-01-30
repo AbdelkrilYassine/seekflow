@@ -17,6 +17,15 @@ import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/fi
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { Camera } from '@ionic-native/camera/ngx';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
+
+
 @NgModule({
   declarations: [AppComponent, ListPipe],
     entryComponents: [],
@@ -28,7 +37,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
   providers: [
     StatusBar,
     SplashScreen,
-    Camera,
+    Camera,File,FileChooser,FileTransfer,FileTransferObject,FilePath ,DocumentViewer,FileOpener,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
       { provide: FirestoreSettingsToken, useValue: {} }
   ],
