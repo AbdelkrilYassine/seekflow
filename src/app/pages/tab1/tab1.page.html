@@ -34,13 +34,14 @@
                 </ion-label>
             </ion-item-divider>
 
-
+             
 
             <ion-item *virtualItem="let p " (click)="selectItem(p)">
 
                 <ion-avatar slot="start">
+                    <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ayhpppm8X5IRg5T8eSggMCb7ZTeTnx5-R8CZ7x2gzq5QpJhm7g&s">
 
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ayhpppm8X5IRg5T8eSggMCb7ZTeTnx5-R8CZ7x2gzq5QpJhm7g&s">
+                   <!-- <img *ngIf="p.imgPath" src="{{p.imgPath}}">-->
                 </ion-avatar>
                 <ion-label>
                     <h2 class="ion-text-capitalize">{{p.name}}</h2>

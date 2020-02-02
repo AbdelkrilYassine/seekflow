@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 export interface Utilisateur {
     id?: string,
-    type: number,
+    type: string,
     name: string,
     email: string,
     password: string,
@@ -43,6 +43,21 @@ export class RegisterService {
 
     getUsers(): Observable<Utilisateur[]> {
         return this.utilisateurs;
+    }
+
+    getDeveloppers(): Observable<Utilisateur[]> {
+        this.userCollection = this.afs.collection('Utilisateurs', ref => {
+            return ref.where("type", '==', 3).orderBy("name", "asc")
+        });
+        return this.utilisateurs = this.userCollection.snapshotChanges().pipe(
+            map(actions => {
+                return actions.map(a => {
+                    const data = a.payload.doc.data() as Utilisateur;
+                    const id = a.payload.doc.id;
+                    return { id, ...data };
+                });
+            })
+        );
     }
 
     getUser(id: string): Observable<Utilisateur> {
@@ -89,7 +104,7 @@ export class RegisterService {
     
 
         return this.afs.collection<Utilisateur>('Utilisateurs', ref => ref.where('email',
-            '==', email))
+            '==', email).where('password','==',password))
             .snapshotChanges()
             .pipe(map(users => {
                 const user = users[0];

@@ -91,7 +91,7 @@ export class SettingsPage implements OnInit {
 
                 this.userUpdate = {
                     name: this.Name,
-                    type: Number(this.userDetails.type),
+                    type: this.userDetails.type,
                     email: this.userDetails.email,
                     password: this.userDetails.password,
                     notfication: Boolean(this.userDetails.notfication),

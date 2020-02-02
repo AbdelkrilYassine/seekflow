@@ -32,7 +32,7 @@
                                     <div class="card-subtitle"><ion-img src="assets/icon/analyse.png"></ion-img></div>
                                 </ion-card>
                             </ion-col>
-                            <ion-col>
+                            <ion-col> 
                                 <ion-card class="card">
                                     <div class="card-title">25,20 </div>
                                     <div class="card-subtitle"><ion-img src="assets/icon/stati.png"></ion-img></div>
@@ -66,7 +66,7 @@
 
                             <ion-col>
                                 <ion-card class="card">
-                                    <div class="card-title">50 M</div>
+                                    <div class="card-title">{{TotalUnfinishedTask}}</div>
                                     <div class="card-subtitle"><ion-img src="assets/icon/analysis.png"></ion-img></div>
                                 </ion-card>
                             </ion-col>
@@ -80,7 +80,7 @@
                             </ion-col>
                             <ion-col>
                                 <ion-card class="card">
-                                    <div class="card-title">10%</div>
+                                    <div class="card-title">{{pourcent}}</div>
                                     <div class="card-subtitle"><ion-img src="assets/icon/feedback.png"></ion-img></div>
                                 </ion-card>
                             </ion-col>
@@ -137,11 +137,14 @@
                                             <ion-card-subtitle color="primary">Effective</ion-card-subtitle>
                                         </ion-card-header>
                                         <ion-card-content>
-                                            <ion-list class="child-list" *ngFor="let dev of projet.dev_team" lines="none">
-                                                <ion-item >
-
-                                                    <ion-label>
-                                                        {{dev}}
+                                            <ion-list class="child-list" *ngFor="let dev of devs" lines="none">
+                                                <div class="height: 15px;">   </div>
+                                                <ion-item>
+                                                    <ion-avatar slot="start">
+                                                        <ion-icon name="person"></ion-icon>
+                                                    </ion-avatar>
+                                                    <ion-label class="ion-text-nowrap">
+                                                        <p>{{dev.name}}</p>
                                                     </ion-label>
                                                 </ion-item>
                                             </ion-list>
@@ -156,9 +159,9 @@
 
 
 
-        </div>
+        </div> 
 
-        <div *ngIf="item.value && item.open && item.name=='Tasks'">
+        <div *ngIf="taskslist.length>0 && item.open && item.name=='Tasks'">
 
                     <ngx-datatable [rows]="taskslist"
                                    [rowHeight]="'auto'"
@@ -211,19 +214,23 @@
 
         <ion-item [hidden]="true">
             <ion-label>Assign Employee</ion-label>
-            <ion-select [(ngModel)]="selectedValue" name="selectCode"
+            <ion-select [(ngModel)]="selectedValue" name="selectCode" 
                         multiple="true" placeholder="Tap to select.."
                         (ionChange)="onChange($event)" required #mySelect>
-                <ion-select-option *ngFor="let emp of Emp" value="{{emp.id}}">
-                    {{emp.name}}
-                </ion-select-option>
+                <div *ngIf="listUsers.length>0">
+
+                    <ion-select-option *ngFor="let emp of listUsers" value="{{emp.id}}">
+                        {{emp.name}}
+                    </ion-select-option>
+                </div> 
+
             </ion-select>
         </ion-item>
 
         <ion-item [hidden]="true">
             <ion-item>
                 <ion-label>Choose task Status</ion-label>
-                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                <ion-select [(ngModel)]="selectedValue2" name="selectCode2"
                             placeholder="Tap to select.."
                             (ionChange)="onChangeStatus($event)" required #SelectStatus>
                     <ion-select-option value="Pending">Pending</ion-select-option>
@@ -235,7 +242,7 @@
 
             <ion-item [hidden]="true">
                 <ion-label>Choose the Difficulty of the task</ion-label>
-                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                <ion-select [(ngModel)]="selectedValue3" name="selectCode3"
                             placeholder="Tap to select.."
                             (ionChange)="onChangeDifficulty($event)" required #SelectDifficulty>
                     <ion-select-option value="EXTREMELY_EASY">Extremely Easy</ion-select-option>
@@ -249,7 +256,7 @@
 
             <ion-item [hidden]="true">
                 <ion-label>Rate your Progress work </ion-label>
-                <ion-select [(ngModel)]="selectedValue" name="selectCode"
+                <ion-select [(ngModel)]="selectedValue4" name="selectCode4"
                             placeholder="Tap to select.."
                             (ionChange)="onChangeProgress($event)" required #SelectProgress>
                     <ion-select-option value="0">0</ion-select-option>

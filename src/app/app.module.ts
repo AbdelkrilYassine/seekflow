@@ -24,6 +24,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 
+import { Firebase } from '@ionic-native/firebase/ngx';
+
 
 
 @NgModule({
@@ -37,7 +39,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    Camera,File,FileChooser,FileTransfer,FileTransferObject,FilePath ,DocumentViewer,FileOpener,
+    Camera,File,FileChooser,FileTransfer,FileTransferObject,FilePath ,DocumentViewer,FileOpener,Firebase,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
       { provide: FirestoreSettingsToken, useValue: {} }
   ],

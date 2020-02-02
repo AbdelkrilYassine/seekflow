@@ -5,6 +5,8 @@ import { ProjetService, Project, Task, DIFFICULTY, STATUS } from 'src/app/servic
 import { Observable } from 'rxjs'
 import { ToastController, IonSelect, IonItem, IonList, IonCard } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { RegisterService, Utilisateur } from 'src/app/services/register.service';
 @Component({
   selector: 'app-detailsprojet',
   templateUrl: './detailsprojet.page.html',
@@ -26,21 +28,29 @@ export class DetailsprojetPage implements OnInit {
     private taskslist;
     tableStyle = 'dark';
     Emp: any;
-    NameTask: string = '';
+    NameTask: string = "";
     NewTask: Task;
     currentTask: Task;
     automaticClose = false;
     information: any[];
-   
-    constructor(private route: ActivatedRoute, private router: Router, private projetService: ProjetService, private toastCtrl: ToastController) {
+    devs: Array<Utilisateur> = [];
+    devsSubs: Subscription;
+    listUsers: any = [];
+    devsnames: string[] = [];
+    UsersSubs: Subscription;
+    statdevs: any = [];
+    TotalUnfinishedTask: number = 0;
+    pourcent: string = "";
+    constructor(private userService: RegisterService,private route: ActivatedRoute, private router: Router, private projetService: ProjetService, private toastCtrl: ToastController) {
         let recvData = this.route.snapshot.paramMap.get('id');
         this.projetID = JSON.parse(recvData)
-        console.log(this.Emp);
+        
     }
     
 
     ngOnInit() {
         this.loadProjet();
+        this.loadUser();
     }
 
     ngAfterViewInit() {
@@ -50,6 +60,7 @@ export class DetailsprojetPage implements OnInit {
     }
 
     loadProjet() {
+        this.devs = [];
         this.projetService.getProjetById(this.projetID).subscribe(p => {
             this.projet = p;
             this.taskslist = p.Tasks;
@@ -68,15 +79,40 @@ export class DetailsprojetPage implements OnInit {
             }
 
             ];
-            
+
+            this.projet.dev_team.forEach((id) => {
+
+                this.devsSubs = this.userService.getUser(id).subscribe((u) => {
+                    this.devs.push(u);
+                    this.devsnames.push(u.name);
+
+                })
+                
+            })
+
+
         })
 
-        this.Emp = [{ id: '1', name: 'yassine' }, { id: '2', name: 'achref' }, { id: '3', name: 'ali' }];
+
+      //  this.countUnfinishedTask();
 
 
-        
-        
     }
+
+    loadUser() {
+        this.UsersSubs = this.userService.getDeveloppers().subscribe((u) => {
+            if (u) {
+                u.forEach((i) => {
+
+                    this.listUsers.push({ id: i.id, name: i.name })
+                })
+
+            }
+            
+        });
+       
+    }
+
     async open(row) {
         
 
@@ -86,61 +122,118 @@ export class DetailsprojetPage implements OnInit {
        
         return cell.status == 'Pending' ? 'pending_cell' : 'finished_cell';
     }
+    
+    onChange(eventc) {
 
-    onChange(event) {
         if (this.currentTask != null) {
-            this.currentTask.employee = event.target.value
-            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
-                this.showToast('The task employee has been Updated :)');
-                this.loadProjet();
+            let n: Task = {
+                difficulty: this.currentTask.difficulty,
+                employee: eventc.target.value,
+                name: this.currentTask.name,
+                progress: this.currentTask.progress,
+                status: this.currentTask.status
+            };
+
+            this.projetService.DeleteTask(this.projet.id, this.currentTask).then(() => {
+
+                this.projetService.AddTask(this.projet.id, n).then(() => {
+                    this.showToast('Employees has been assigned :)');
+                    this.loadProjet();
+                    n.employee.forEach((id) => {
+                        this.projet.dev_team.forEach((mem) => {
+                            if (id != mem) {
+
+                                this.projetService.updatedevmember(this.projet.id, id);
+                            }
+                        })
+                        
+                    })
+                })
+
             }, err => {
-                this.showToast('There was a problem Updating the task employee :(');
+                this.showToast('There was a problem assigning the employees :(');
                 console.log(err);
             });
 
         }
     }
-
-    onChangeStatus(event) {
+     
+    onChangeStatus(events) {
         
         if (this.currentTask != null) {
-            this.currentTask.status = event.target.value
-            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
-                this.showToast('The task status has been Updated :)');
-                this.loadProjet();
+            let n: Task = {
+                difficulty: this.currentTask.difficulty,
+                employee: this.currentTask.employee,
+                name: this.currentTask.name,
+                progress: this.currentTask.progress,
+                status: events.target.value
+            };
+
+            this.projetService.DeleteTask(this.projet.id, this.currentTask).then(() => {
+
+                this.projetService.AddTask(this.projet.id, n).then(() => {
+                    this.showToast('The task status has been Updated :)');
+                    this.loadProjet();
+
+                })
+
             }, err => {
-                    this.showToast('There was a problem Updating the task status :(');
+                this.showToast('There was a problem Updating the  task status :(');
                 console.log(err);
             });
 
         }
     }
-    onChangeDifficulty(event) {
+    onChangeDifficulty(eventd) {
 
         if (this.currentTask != null) {
-            this.currentTask.difficulty = event.target.value
-            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
-                this.showToast('The task difficulty has been Updated :)');
-                this.loadProjet();
+            let n: Task = {
+                difficulty: eventd.target.value,
+                employee: this.currentTask.employee,
+                name: this.currentTask.name,
+                progress: this.currentTask.progress,
+                status: this.currentTask.status
+            };
+
+            this.projetService.DeleteTask(this.projet.id, this.currentTask).then(() => {
+
+                this.projetService.AddTask(this.projet.id, n).then(() => {
+                    this.showToast('The task difficulty has been Updated :)');
+                    this.loadProjet();
+
+                })
+
             }, err => {
-                    this.showToast('There was a problem Updating the task difficulty :(');
+                    this.showToast('There was a problem Updating the  task difficulty :(');
                 console.log(err);
             });
 
         }
     }
-    onChangeProgress(event) {
+    onChangeProgress(eventp) {
 
         if (this.currentTask != null) {
-            this.currentTask.progress = event.target.value
-            this.projetService.UpdateTask(this.projet.id, this.currentTask).then(() => {
-                this.showToast('The work progress has been Updated :)');
-                this.loadProjet();
+            let n: Task = {
+                difficulty: this.currentTask.difficulty,
+                employee: this.currentTask.employee,
+                name: this.currentTask.name,
+                progress: eventp.target.value,
+                status: this.currentTask.status
+            };
+                        
+            this.projetService.DeleteTask(this.projet.id, this.currentTask).then(() => {
+
+                this.projetService.AddTask(this.projet.id, n).then(() => {
+                    this.showToast('The work progress has been Updated :)');
+                    this.loadProjet();
+
+                })
+
             }, err => {
                     this.showToast('There was a problem Updating the work progress :(');
                 console.log(err);
             });
-
+            
         }
     }
     openSelect(row) {
@@ -158,20 +251,27 @@ export class DetailsprojetPage implements OnInit {
     }
     openSelectProgress(row) {
         this.currentTask = row;
-        this.selectRefProgress.open();
+
+    this.selectRefProgress.open();
     }
 
     AddTask() {
-        if (this.NameTask != null) {
+        if (this.NameTask == null || this.NameTask == "" || this.NameTask == '') {
 
+                this.showToast('Task name is empty');
+
+
+        } else {
             this.NewTask = { name: this.NameTask, difficulty: DIFFICULTY.PENDING, progress: 0, employee: [], status: STATUS.Pending };
             this.projetService.AddTask(this.projet.id, this.NewTask).then(() => {
                 this.showToast('Your new task  has been added :)');
+                this.NameTask = "";
                 this.loadProjet();
             }, err => {
                 this.showToast('There was a problem adding the task :(');
                 console.log(err);
             });
+
         }
     }
 
@@ -198,7 +298,7 @@ export class DetailsprojetPage implements OnInit {
         this.barChart = new Chart(this.barCanvas.nativeElement, {
             type: 'bar',
             data: {
-                labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
+                labels: this.devsnames,
                 datasets: [{
                     label: '# First Value',
                     data: [200, 50, 30, 15, 20, 34],
@@ -237,7 +337,7 @@ export class DetailsprojetPage implements OnInit {
         this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
             type: 'doughnut',
             data: {
-                labels: ['BJP', 'Congress', 'AAP', 'CPM', 'SP'],
+                labels: this.devsnames,
                 datasets: [{
                     label: '# of Votes',
                     data: [50, 29, 15, 10, 7],
@@ -293,22 +393,35 @@ export class DetailsprojetPage implements OnInit {
         });
     }
  
-
     toggleSection(index) {
-
         this.information[index].open = !this.information[index].open;
 
         if (this.automaticClose && this.information[index].open) {
-
-            this.information.filter((item, itemIndex) => itemIndex != index)
-            .map(item => item.open =false);
-
+            this.information
+                .filter((item, itemIndex) => itemIndex != index)
+                .map(item => item.open = false);
         }
     }
 
-    toggleItem(index, childIndex) {
-        this.information[index].children[childIndex].open = !this.information[index].children[childIndex].open;
+
+
+    
+    ngOnDestroy() {
+      if(this.devsSubs)  this.devsSubs.unsubscribe();
+        this.UsersSubs.unsubscribe();
     }
 
+    /*
+    countUnfinishedTask() {
+        
+        this.projet.Tasks.forEach((t) => {
 
+            if (t.status != "Completed") {
+                this.TotalUnfinishedTask++;
+            }
+           
+        })
+
+        this.pourcent = (this.projet.Tasks.length - this.TotalUnfinishedTask)*10+ '%';
+    }*/
 }

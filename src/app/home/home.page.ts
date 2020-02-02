@@ -4,7 +4,8 @@ import { ToastController, AlertController, LoadingController } from '@ionic/angu
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { RegisterService, Utilisateur } from 'src/app/services/register.service';
-
+import { tap } from 'rxjs/operators';
+import { ProposalService } from 'src/app/proposal.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -16,12 +17,35 @@ export class HomePage {
     password: string = "";
     userID: string;
     private user;
-    constructor(private router: Router, private userService: RegisterService,
+    constructor(private router: Router, private userService: RegisterService, public fcm: ProposalService,
         public toastCtrl: ToastController,
         public alertCtrl: AlertController, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth
-        ) {}
-       
+    ) {
 
+
+    
+    }
+       
+    ionViewDidLoad() {
+
+    }
+
+    notfication() {
+                this.fcm.getToken()
+
+        // Listen to incoming messages
+        this.fcm.listenToNotifications().pipe(
+            tap(async(msg) => {
+                // show a toast
+                const toast = this.toastCtrl.create({
+                    message: msg.body,
+                    duration: 3000
+                });
+                (await toast).present();
+            })
+        )
+            .subscribe()
+    }
 
     Home() {
 
@@ -149,5 +173,9 @@ export class HomePage {
             toast.present();
         });
             
+    }
+
+    register() {
+        this.router.navigate(['register'])
     }
 }

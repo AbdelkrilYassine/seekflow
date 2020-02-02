@@ -17,7 +17,7 @@ export class Tab2Page implements OnInit {
    image = 'assets/icon/projectholder.png';
     upload: any;
 
-
+    private imageSourceSubscription: Subscription;
     name: string = "";
     client: string = "";
     description: string = "";
@@ -67,6 +67,7 @@ export class Tab2Page implements OnInit {
     }
     ngOnDestroy() {
         this.sub.unsubscribe();
+        this.imageSourceSubscription.unsubscribe();
     }
     pagenotif() {
         this.router.navigateByUrl('/notfication');
@@ -138,11 +139,21 @@ export class Tab2Page implements OnInit {
                 });
                 await loading.present();
 
-                this.upload = this.afSG.ref('picturesProject/' + this.userID).putString(this.image, 'data_url');
+                this.upload = this.afSG.ref('picturesProject/' + this.userID + this.client + this.name).putString(this.image, 'data_url');
                 this.upload.then(async () => {
 
                     await loading.onDidDismiss();
                     this.image = 'assets/icon/imageholder.jpg';
+                    this.imageSourceSubscription = this.afSG.ref('picturesProject/' + this.userID + this.client + this.name).getDownloadURL().subscribe(url => {
+
+                        if (url) {
+                            this.proj.imgPath = url;
+
+                        } else {
+                            console.log("Failed Display photo");
+                            this.proj.imgPath = null;
+                        }
+                    });
                     this.projetService.addProjet(this.proj).then(() => {
 
                         this.toastShow("Project added successfully! :) ");
@@ -218,4 +229,6 @@ export class Tab2Page implements OnInit {
        
 
     }
+
+
 }

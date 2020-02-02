@@ -26,7 +26,7 @@ export interface Project {
 }
 
 export interface Task {
-    id?: string,
+
     name: string,
     difficulty: DIFFICULTY,
     progress: number,
@@ -61,7 +61,7 @@ export class ProjetService {
     private projets: Observable<Project[]>;
     private projCollection: AngularFirestoreCollection<Project>;
     private NotifDoc: AngularFirestoreDocument<Project>;
-
+    private pdevs: Observable<Project[]>;
     constructor(private afs: AngularFirestore) {
 
         this.projCollection = this.afs.collection('Projets');
@@ -92,18 +92,45 @@ export class ProjetService {
     }
 
     getmyProjects(attribut: string, type: string): Observable<Project[]> {
-        this.projCollection = this.afs.collection('Projets', ref => {
-            return ref.where(attribut, '==', type).orderBy("name", "asc")
-        });
-        return this.projets = this.projCollection.snapshotChanges().pipe(
-            map(actions => {
-                return actions.map(a => {
-                    const data = a.payload.doc.data() as Project;
-                    const id = a.payload.doc.id;
-                    return { id, ...data };
-                });
+
+        if (attribut=="chef" || attribut=="client") {
+            this.projCollection = this.afs.collection('Projets', ref => {
+                return ref.where(attribut, '==', type).orderBy("name", "asc")
+            });
+            return this.projets = this.projCollection.snapshotChanges().pipe(
+                map(actions => {
+                    return actions.map(a => {
+                        const data = a.payload.doc.data() as Project;
+                        const id = a.payload.doc.id;
+                        return { id, ...data };
+                    });
+                })
+            );
+        } else {
+            this.projCollection = this.afs.collection('Projets', ref => {
+                return ref.where('dev_team', "array-contains", type)
+            });
+            return this.projets = this.projCollection.snapshotChanges().pipe(
+                map(actions => {
+                    return actions.map(a => {
+                        const data = a.payload.doc.data() as Project;
+                        const id = a.payload.doc.id;
+                        return { id, ...data };
+                    });
+                })
+            );
+        } 
+
+    }
+    getprojectDev(projectsTab:Project[] ,id: string): Project[] {
+        let devs: Project[] = [];
+        
+        projectsTab.forEach((p) => {
+            if (p.dev_team.find(e => e == id)) {
+                devs.push(p)
+            }
             })
-        );
+        return devs;
     }
 
     countmyProjects(id: string): Observable<Project[]>  {
@@ -146,10 +173,26 @@ export class ProjetService {
         return this.NotifDoc.ref.update({ Tasks: firebase.firestore.FieldValue.arrayRemove(t) })
     }
 
-    UpdateTask(projId: string, t:Task ): Promise<void> {
-
+    UpdateTask(projId: string, t:Task ,old:Task ): Promise<void> {
+        let res: any=null;
         this.NotifDoc = this.afs.doc('/Projets/' + projId);
-        return this.NotifDoc.ref.update({ Tasks: { id: t.id, name: t.name, difficulty: t.difficulty, progress: t.progress, employee: t.employee, status: t.status } })
+
+        // return this.NotifDoc.ref.update({ Tasks: { id: t.id, name: t.name, difficulty: t.difficulty, progress: t.progress, employee: t.employee, status: t.status } })
+
+        this.NotifDoc.ref.update({ Tasks: firebase.firestore.FieldValue.arrayRemove(old) }).then(() => {
+
+            return res=this.AddTask(projId, t);
+        });
+        return res;
 
     }
+
+    updatedevmember(id: string, members: string): Promise<void> {
+        this.NotifDoc = this.afs.doc('/Projets/' + id);
+        return this.NotifDoc.ref.update({ dev_team: firebase.firestore.FieldValue.arrayUnion(members) })
+    }
+
+
+
+
 }
